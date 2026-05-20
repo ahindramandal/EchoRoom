@@ -160,23 +160,47 @@ function App() {
     audio.play?.().catch(() => {});
     remoteAudioRef.current[socketId] = audio;
   };
-  const createScreenElement = (socketId, stream, type = "screen") => {
+  const createScreenElement = (socketId, stream, type = "screen", customId = null) => {
+    const videoTrack = stream?.getVideoTracks?.()[0];
+    const id = customId || `${socketId}-${type}-${videoTrack?.id || "video"}`;
+
     setScreenShares((prev) => {
-      const exists = prev.some((item) => item.socketId === socketId);
+      const exists = prev.some((item) => item.id === id);
 
       if (exists) {
         return prev.map((item) =>
-          item.socketId === socketId ? { ...item, stream, type } : item
+          item.id === id
+            ? { ...item, socketId, stream, type, trackId: videoTrack?.id }
+            : item
         );
       }
 
-      return [...prev, { socketId, stream, type }];
+      return [
+        ...prev,
+        {
+          id,
+          socketId,
+          stream,
+          type,
+          trackId: videoTrack?.id,
+        },
+      ];
     });
   };
 
-  const removeScreenElement = (socketId) => {
+  const removeScreenElement = (socketIdOrId) => {
     setScreenShares((prev) =>
-      prev.filter((item) => item.socketId !== socketId)
+      prev.filter(
+        (item) => item.socketId !== socketIdOrId && item.id !== socketIdOrId
+      )
+    );
+  };
+
+  const removeRemoteVideoTrack = (socketId, trackId) => {
+    setScreenShares((prev) =>
+      prev.filter(
+        (item) => !(item.socketId === socketId && item.trackId === trackId)
+      )
     );
   };
 
@@ -245,7 +269,7 @@ function App() {
     const oldScreenStream = screenStreamRef.current;
     const oldScreenTracks = oldScreenStream ? oldScreenStream.getTracks() : [];
 
-    removeScreenElement("local");
+    removeScreenElement("local-screen");
     setScreenOn(false);
 
     for (const [socketId, peer] of Object.entries(peersRef.current)) {
@@ -309,7 +333,7 @@ function App() {
     const oldCameraStream = cameraStreamRef.current;
     const oldCameraTracks = oldCameraStream ? oldCameraStream.getTracks() : [];
 
-    removeScreenElement("camera-local");
+    removeScreenElement("local-camera");
     setCameraOn(false);
 
     for (const [socketId, peer] of Object.entries(peersRef.current)) {
@@ -332,6 +356,10 @@ function App() {
 
     oldCameraTracks.forEach((track) => track.stop());
     cameraStreamRef.current = null;
+
+    if (!silent && roomId) {
+      socket.emit("screen-share-stopped", { roomId });
+    }
 
     if (!silent) {
       setMessage("Camera stopped.");
@@ -360,7 +388,7 @@ function App() {
 
       cameraStreamRef.current = cameraStream;
       setCameraOn(true);
-      createScreenElement("camera-local", cameraStream, "camera");
+      createScreenElement("camera-local", cameraStream, "camera", "local-camera");
 
       const cameraTrack = cameraStream.getVideoTracks()[0];
       if (cameraTrack) {
@@ -433,18 +461,29 @@ function App() {
       }
     };
 
-   peer.ontrack = (event) => {
-  const [remoteStream] = event.streams;
-  const track = event.track;
+    peer.ontrack = (event) => {
+      const [remoteStream] = event.streams;
+      const track = event.track;
 
-  if (track.kind === "audio") {
-    createAudioElement(targetSocketId, remoteStream);
-  }
+      if (track.kind === "audio") {
+        createAudioElement(targetSocketId, remoteStream);
+      }
 
-  if (track.kind === "video") {
-    createScreenElement(targetSocketId, remoteStream);
-  }
-};
+      if (track.kind === "video") {
+        const videoOnlyStream = new MediaStream([track]);
+        const remoteVideoId = `${targetSocketId}-video-${track.id}`;
+
+        createScreenElement(
+          targetSocketId,
+          videoOnlyStream,
+          "remote-video",
+          remoteVideoId
+        );
+
+        track.onended = () => removeRemoteVideoTrack(targetSocketId, track.id);
+        track.onmute = () => removeRemoteVideoTrack(targetSocketId, track.id);
+      }
+    };
 
     peer.onconnectionstatechange = () => {
       if (
@@ -693,7 +732,7 @@ const toggleScreenShare = async () => {
     };
 
     setScreenOn(true);
-    createScreenElement("local", screenStream);
+    createScreenElement("local", screenStream, "screen", "local-screen");
 
     // Important: screen share should work even if mic is already connected or mic is off.
     // Existing peers need the new video track added before renegotiation.
@@ -974,7 +1013,7 @@ const toggleScreenShare = async () => {
     });
 
     socket.on("voice-users", async (users) => {
-      if (!localStreamRef.current && !screenStreamRef.current) return;
+      if (!localStreamRef.current && !screenStreamRef.current && !cameraStreamRef.current) return;
 
       for (const user of users) {
         await callUser(user.socketId);
@@ -982,7 +1021,7 @@ const toggleScreenShare = async () => {
     });
 
     socket.on("new-voice-user", async ({ socketId }) => {
-      if (!localStreamRef.current && !screenStreamRef.current) return;
+      if (!localStreamRef.current && !screenStreamRef.current && !cameraStreamRef.current) return;
       await callUser(socketId);
     });
 
@@ -1094,12 +1133,97 @@ const toggleScreenShare = async () => {
 
   const leaveRoom = () => {
     stopScreenShare(true);
+    stopCamera(true);
     stopMic();
     socket.emit("leave-room", { roomId });
   };
 
+  const responsiveVideoStyles = `
+    .screen-grid {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: 12px;
+      width: 100%;
+      max-height: min(62vh, 620px);
+      overflow: auto;
+      padding: 10px;
+      box-sizing: border-box;
+      align-items: stretch;
+    }
+
+    .screen-tile {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      min-height: 150px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .screen-video {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+      object-fit: contain;
+      background: #050509;
+    }
+
+    .screen-topbar {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.48);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .screen-full-btn {
+      pointer-events: auto;
+      border: 0;
+      border-radius: 10px;
+      padding: 6px 10px;
+      cursor: pointer;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    @media (min-width: 900px) {
+      .screen-grid.screen-count-1 { grid-template-columns: 1fr; }
+      .screen-grid.screen-count-2,
+      .screen-grid.screen-count-3,
+      .screen-grid.screen-count-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .screen-grid.screen-count-5,
+      .screen-grid.screen-count-6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 700px) {
+      .screen-grid {
+        grid-template-columns: 1fr;
+        max-height: 58vh;
+        padding: 8px;
+      }
+
+      .screen-tile {
+        min-height: 190px;
+      }
+    }
+  `;
+
   return (
     <div className="app">
+      <style>{responsiveVideoStyles}</style>
       <div className="sky"></div>
       <div className="city"></div>
 
@@ -1196,9 +1320,9 @@ const toggleScreenShare = async () => {
                 </div>
               </div>
 {screenShares.length > 0 && (
-  <div className="screen-grid">
+  <div className={`screen-grid screen-count-${Math.min(screenShares.length, 6)}`}>
     {screenShares.map((share) => (
-      <div className="screen-tile" key={share.socketId}>
+      <div className="screen-tile" key={share.id}>
         <video
           className="screen-video"
           autoPlay
@@ -1214,7 +1338,13 @@ const toggleScreenShare = async () => {
 
         <div className="screen-topbar">
           <span>
-            {share.type === "camera" ? "Your Camera" : share.socketId === "local" ? "Your Screen" : "Shared Video"}
+            {share.type === "camera"
+              ? "Your Camera"
+              : share.socketId === "local"
+              ? "Your Screen"
+              : members.find((member) => member.socketId === share.socketId)?.username
+              ? `${members.find((member) => member.socketId === share.socketId)?.username} sharing`
+              : "Shared Video"}
           </span>
 
           <button
