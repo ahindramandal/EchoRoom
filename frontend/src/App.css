@@ -3280,32 +3280,31 @@ body,
 .screen-grid:has(.screen-tile:nth-child(5)) {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
 }
-/* ===== LAPTOP VIDEO GRID FORCE FIX ===== */
+/* ===== KEEP OLD LOOK + FIX MULTIPLE VIDEO GRID ===== */
 
 @media (min-width: 901px) {
   .compact-arena {
-    display: flex !important;
-    flex-direction: column !important;
-    overflow: hidden !important;
+    display: grid !important;
+    grid-template-rows: auto minmax(0, 1fr) auto auto auto !important;
   }
 
   .screen-grid {
-    flex: 1 1 auto !important;
-    height: auto !important;
-    max-height: 58vh !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
 
     display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(180px, 1fr) !important;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+    gap: 12px !important;
 
     overflow-y: auto !important;
+    overflow-x: hidden !important;
   }
 
   .screen-tile {
     width: 100% !important;
     height: auto !important;
-    min-height: 180px !important;
-    max-height: none !important;
+    min-height: 210px !important;
     aspect-ratio: 16 / 9 !important;
   }
 
