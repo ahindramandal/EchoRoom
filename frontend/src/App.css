@@ -3532,3 +3532,408 @@ body,
   }
 }
 
+
+
+
+/* =========================================================
+   FINAL FIX: 3 panel War Room layout
+   Left: members + call controls
+   Center: big screen/camera media grid
+   Right: host requests + chat
+   ========================================================= */
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  overflow: hidden;
+}
+
+.app {
+  align-items: flex-start !important;
+  justify-content: center !important;
+  padding: 8px !important;
+  min-height: 100vh !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+}
+
+.room-card {
+  width: calc(100vw - 24px) !important;
+  max-width: 1760px !important;
+  height: calc(100vh - 16px) !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+.room-top {
+  flex: 0 0 auto !important;
+  margin-bottom: 12px !important;
+}
+
+.room-top h1 {
+  font-size: clamp(30px, 2.7vw, 46px) !important;
+  line-height: 1 !important;
+}
+
+.room-top p {
+  margin: 4px 0 0 !important;
+}
+
+.room-layout {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: auto !important;
+  display: grid !important;
+  grid-template-columns: 300px minmax(0, 1fr) 370px !important;
+  gap: 16px !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
+}
+
+/* LEFT: members + buttons */
+.left-members-panel {
+  order: 1 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  padding: 14px !important;
+  overflow: hidden !important;
+  background: rgba(14, 6, 20, 0.78) !important;
+  border: 1px solid rgba(168, 85, 247, 0.24) !important;
+  border-radius: 24px !important;
+}
+
+.left-member-list,
+.center-members.left-member-list {
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+.left-member-list .center-members-list {
+  height: 100% !important;
+  max-height: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 2px 4px 8px 2px !important;
+}
+
+.left-member-list .center-member-card {
+  width: 100% !important;
+  min-height: 72px !important;
+  grid-template-columns: 44px minmax(0, 1fr) auto !important;
+}
+
+.left-controls-stack {
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.left-controls-stack .controls {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 12px !important;
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(44px, 1fr)) !important;
+  gap: 9px !important;
+  border-radius: 22px !important;
+  background: rgba(5, 2, 10, 0.78) !important;
+}
+
+.left-controls-stack .control-btn {
+  width: 48px !important;
+  height: 48px !important;
+  justify-self: center !important;
+  font-size: 18px !important;
+}
+
+.left-controls-stack .ptt-settings {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 12px !important;
+  display: grid !important;
+  grid-template-columns: 1fr auto !important;
+  gap: 10px !important;
+  border-radius: 18px !important;
+}
+
+.left-controls-stack .ptt-key {
+  grid-column: 1 / -1 !important;
+}
+
+/* CENTER: big media space */
+.compact-arena {
+  order: 2 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  gap: 12px !important;
+  padding: 16px !important;
+  overflow: hidden !important;
+  background: rgba(14, 6, 20, 0.78) !important;
+  border: 1px solid rgba(168, 85, 247, 0.24) !important;
+  border-radius: 24px !important;
+  text-align: left !important;
+}
+
+.room-status-bar {
+  width: 100% !important;
+  flex: 0 0 auto !important;
+  min-height: 58px !important;
+  margin: 0 !important;
+}
+
+.screen-grid {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  display: grid !important;
+  gap: 14px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: auto !important;
+  align-content: stretch !important;
+}
+
+.screen-grid.screen-count-0 {
+  grid-template-columns: 1fr !important;
+}
+
+.screen-grid.screen-count-1 {
+  grid-template-columns: 1fr !important;
+  grid-auto-rows: minmax(0, 1fr) !important;
+}
+
+.screen-grid.screen-count-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-auto-rows: minmax(0, 1fr) !important;
+}
+
+.screen-grid.screen-count-3,
+.screen-grid.screen-count-4,
+.screen-grid.screen-count-5,
+.screen-grid.screen-count-6 {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-auto-rows: minmax(230px, 1fr) !important;
+}
+
+.video-card,
+.screen-tile {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 260px !important;
+  max-height: none !important;
+  aspect-ratio: auto !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  background: #000 !important;
+  border: 1px solid rgba(168, 85, 247, 0.38) !important;
+  box-shadow:
+    0 0 28px rgba(168, 85, 247, 0.18),
+    inset 0 0 18px rgba(255, 255, 255, 0.03) !important;
+}
+
+.screen-video {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  display: block !important;
+  background: #000 !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.video-label {
+  position: absolute !important;
+  left: 12px !important;
+  bottom: 12px !important;
+  z-index: 4 !important;
+  padding: 7px 11px !important;
+  border-radius: 12px !important;
+  background: rgba(0, 0, 0, 0.72) !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+}
+
+.video-live {
+  position: absolute !important;
+  top: 12px !important;
+  left: 12px !important;
+  z-index: 4 !important;
+  padding: 6px 10px !important;
+  border-radius: 999px !important;
+  background: #ef4444 !important;
+  color: #fff !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+}
+
+.video-fullscreen-btn,
+.screen-full-btn {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  z-index: 5 !important;
+  width: 38px !important;
+  height: 38px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  border: 1px solid rgba(168, 85, 247, 0.35) !important;
+  background: rgba(0, 0, 0, 0.72) !important;
+  color: #fff !important;
+}
+
+.empty-media-state {
+  height: 100% !important;
+  min-height: 0 !important;
+  border: 1px dashed rgba(168, 85, 247, 0.34) !important;
+  border-radius: 20px !important;
+  background: rgba(5, 2, 10, 0.45) !important;
+}
+
+/* RIGHT: requests + chat */
+.right-tools {
+  order: 3 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.right-tools .request-only-panel {
+  flex: 0 0 auto !important;
+  max-height: 210px !important;
+  overflow-y: auto !important;
+}
+
+.right-tools .chat-panel {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+.right-tools .chat-box {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+}
+
+.right-tools .chat-input-row {
+  flex: 0 0 auto !important;
+}
+
+/* remove old hidden behavior */
+.members-panel {
+  display: block !important;
+}
+
+/* Laptop height fixes */
+@media (max-height: 760px) {
+  .room-card {
+    padding: 12px !important;
+  }
+
+  .room-top {
+    margin-bottom: 8px !important;
+  }
+
+  .room-top h1 {
+    font-size: 32px !important;
+  }
+
+  .room-layout {
+    grid-template-columns: 280px minmax(0, 1fr) 350px !important;
+    gap: 12px !important;
+  }
+
+  .left-controls-stack .control-btn {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .video-card,
+  .screen-tile {
+    min-height: 220px !important;
+  }
+}
+
+/* Responsive */
+@media (max-width: 1150px) {
+  body,
+  .app {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+
+  .room-card {
+    height: auto !important;
+    min-height: calc(100vh - 16px) !important;
+    overflow: visible !important;
+  }
+
+  .room-layout {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .left-members-panel,
+  .compact-arena,
+  .right-tools {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .compact-arena {
+    min-height: 560px !important;
+  }
+
+  .screen-grid {
+    min-height: 460px !important;
+  }
+
+  .screen-grid.screen-count-2,
+  .screen-grid.screen-count-3,
+  .screen-grid.screen-count-4,
+  .screen-grid.screen-count-5,
+  .screen-grid.screen-count-6 {
+    grid-template-columns: 1fr !important;
+  }
+}

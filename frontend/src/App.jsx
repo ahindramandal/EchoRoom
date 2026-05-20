@@ -239,18 +239,6 @@ function App() {
     for (const member of otherMembers) {
       const peer = createPeerConnection(member.socketId);
 
-      const oldScreenVideoSenders = peer
-        .getSenders()
-        .filter((sender) => sender.track && sender.track.kind === "video");
-
-      oldScreenVideoSenders.forEach((sender) => {
-        try {
-          peer.removeTrack(sender);
-        } catch (error) {
-          console.error("Old screen video remove error:", error);
-        }
-      });
-
       screenTracks.forEach((track) => {
         const alreadyAdded = peer
           .getSenders()
@@ -278,10 +266,7 @@ function App() {
         .filter((sender) => {
           if (!sender.track) return false;
 
-          const isOldScreenTrack = oldScreenTracks.includes(sender.track);
-          const isScreenVideo = sender.track.kind === "video";
-
-          return isOldScreenTrack || isScreenVideo;
+          return oldScreenTracks.includes(sender.track);
         });
 
       screenSenders.forEach((sender) => {
@@ -371,10 +356,6 @@ function App() {
       if (cameraOn) {
         await stopCamera();
         return;
-      }
-
-      if (screenOn) {
-        await stopScreenShare();
       }
 
       const cameraStream = await navigator.mediaDevices.getUserMedia({
@@ -693,10 +674,6 @@ const toggleScreenShare = async () => {
     if (screenOn) {
       await stopScreenShare();
       return;
-    }
-
-    if (cameraOn) {
-      await stopCamera();
     }
 
     // Stable screen capture.
@@ -1316,6 +1293,85 @@ const toggleScreenShare = async () => {
                   })}
                 </div>
               </div>
+
+              <div className="left-controls-stack">
+              <div className="controls">
+                <button
+                  className={`control-btn ${!micOn ? "off" : ""}`}
+                  data-tooltip={
+                    pushToTalkOn
+                      ? "PTT Mode Active"
+                      : micOn
+                      ? "Mute Mic"
+                      : "Turn On Mic"
+                  }
+                  onClick={toggleMic}
+                >
+                  <span className={!micOn ? "muted-mic-icon" : ""}>🎙️</span>
+                </button>
+
+                <button
+                  className={`control-btn ${deafenOn ? "off" : ""}`}
+                  data-tooltip={deafenOn ? "Undeafen" : "Deafen"}
+                  onClick={toggleDeafen}
+                >
+                  <span className={deafenOn ? "deafen-icon" : ""}>🎧</span>
+                </button>
+
+                <button
+                  className={`control-btn ${screenOn ? "on" : ""}`}
+                  data-tooltip={screenOn ? "Stop Screen" : "Share Screen"}
+                  onClick={toggleScreenShare}
+                >
+                  🖥️
+                </button>
+
+                <button
+                  className={`control-btn ${cameraOn ? "on" : ""}`}
+                  data-tooltip={cameraOn ? "Stop Camera" : "Camera"}
+                  onClick={toggleCamera}
+                >
+                  📷
+                </button>
+
+                <button
+                  className="control-btn leave-btn"
+                  data-tooltip="Leave Call"
+                  onClick={leaveRoom}
+                >
+                  📞
+                </button>
+              </div>
+
+              <div className="ptt-settings">
+                <div>
+                  <b>Push to Talk</b>
+                  <small>
+                    {pushToTalkOn
+                      ? `Hold "${pttKey.toUpperCase()}" to speak`
+                      : "Normal mic toggle mode"}
+                  </small>
+                </div>
+
+                <button
+                  className={pushToTalkOn ? "ptt-toggle active" : "ptt-toggle"}
+                  onClick={togglePushToTalk}
+                >
+                  {pushToTalkOn ? "ON" : "OFF"}
+                </button>
+
+                <button
+                  className="ptt-key"
+                  onClick={() => {
+                    setIsSettingKey(true);
+                    setMessage("Press any key for Push-to-Talk.");
+                  }}
+                >
+                  Key: {pttKey.toUpperCase()}
+                </button>
+              </div>
+
+              </div>
             </div>
 
             <div className="arena compact-arena">
@@ -1406,81 +1462,6 @@ const toggleScreenShare = async () => {
 
 
 
-              <div className="controls">
-                <button
-                  className={`control-btn ${!micOn ? "off" : ""}`}
-                  data-tooltip={
-                    pushToTalkOn
-                      ? "PTT Mode Active"
-                      : micOn
-                      ? "Mute Mic"
-                      : "Turn On Mic"
-                  }
-                  onClick={toggleMic}
-                >
-                  <span className={!micOn ? "muted-mic-icon" : ""}>🎙️</span>
-                </button>
-
-                <button
-                  className={`control-btn ${deafenOn ? "off" : ""}`}
-                  data-tooltip={deafenOn ? "Undeafen" : "Deafen"}
-                  onClick={toggleDeafen}
-                >
-                  <span className={deafenOn ? "deafen-icon" : ""}>🎧</span>
-                </button>
-
-                <button
-                  className={`control-btn ${screenOn ? "on" : ""}`}
-                  data-tooltip={screenOn ? "Stop Screen" : "Share Screen"}
-                  onClick={toggleScreenShare}
-                >
-                  🖥️
-                </button>
-
-                <button
-                  className={`control-btn ${cameraOn ? "on" : ""}`}
-                  data-tooltip={cameraOn ? "Stop Camera" : "Camera"}
-                  onClick={toggleCamera}
-                >
-                  📷
-                </button>
-
-                <button
-                  className="control-btn leave-btn"
-                  data-tooltip="Leave Call"
-                  onClick={leaveRoom}
-                >
-                  📞
-                </button>
-              </div>
-
-              <div className="ptt-settings">
-                <div>
-                  <b>Push to Talk</b>
-                  <small>
-                    {pushToTalkOn
-                      ? `Hold "${pttKey.toUpperCase()}" to speak`
-                      : "Normal mic toggle mode"}
-                  </small>
-                </div>
-
-                <button
-                  className={pushToTalkOn ? "ptt-toggle active" : "ptt-toggle"}
-                  onClick={togglePushToTalk}
-                >
-                  {pushToTalkOn ? "ON" : "OFF"}
-                </button>
-
-                <button
-                  className="ptt-key"
-                  onClick={() => {
-                    setIsSettingKey(true);
-                    setMessage("Press any key for Push-to-Talk.");
-                  }}
-                >
-                  Key: {pttKey.toUpperCase()}
-                </button>
-              </div>
             </div>
 
             <div className="side pro-side right-tools">
