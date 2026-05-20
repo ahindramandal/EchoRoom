@@ -1138,88 +1138,7 @@ const toggleScreenShare = async () => {
     socket.emit("leave-room", { roomId });
   };
 
-  const responsiveVideoStyles = `
-    .screen-grid {
-      display: grid !important;
-      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-      gap: 12px;
-      width: 100%;
-      max-height: min(62vh, 620px);
-      overflow: auto;
-      padding: 10px;
-      box-sizing: border-box;
-      align-items: stretch;
-    }
-
-    .screen-tile {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      min-height: 150px;
-      border-radius: 16px;
-      overflow: hidden;
-      background: rgba(0, 0, 0, 0.78);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    .screen-video {
-      width: 100% !important;
-      height: 100% !important;
-      display: block;
-      object-fit: contain;
-      background: #050509;
-    }
-
-    .screen-topbar {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 8px 10px;
-      border-radius: 12px;
-      background: rgba(0, 0, 0, 0.48);
-      backdrop-filter: blur(8px);
-      color: #fff;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .screen-full-btn {
-      pointer-events: auto;
-      border: 0;
-      border-radius: 10px;
-      padding: 6px 10px;
-      cursor: pointer;
-      color: #fff;
-      background: rgba(255, 255, 255, 0.14);
-    }
-
-    @media (min-width: 900px) {
-      .screen-grid.screen-count-1 { grid-template-columns: 1fr; }
-      .screen-grid.screen-count-2,
-      .screen-grid.screen-count-3,
-      .screen-grid.screen-count-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .screen-grid.screen-count-5,
-      .screen-grid.screen-count-6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 700px) {
-      .screen-grid {
-        grid-template-columns: 1fr;
-        max-height: 58vh;
-        padding: 8px;
-      }
-
-      .screen-tile {
-        min-height: 190px;
-      }
-    }
-  `;
+  const responsiveVideoStyles = ``;
 
   return (
     <div className="app">
@@ -1301,72 +1220,8 @@ const toggleScreenShare = async () => {
           </div>
 
           <div className="room-layout">
-            <div className="arena compact-arena">
-              <div className="room-status-bar">
-                <div>
-                  <b>{username}</b>
-                  <span>{message}</span>
-                </div>
-
-                <div className="live-status compact-live-status">
-                  <span className={micOn ? "dot active" : "dot danger"}></span>
-                  {pushToTalkOn
-                    ? micOn
-                      ? "PTT speaking"
-                      : `Hold ${pttKey.toUpperCase()}`
-                    : micOn
-                    ? "Voice connected"
-                    : "Mic muted"}
-                </div>
-              </div>
-{screenShares.length > 0 && (
-  <div className={`screen-grid screen-count-${Math.min(screenShares.length, 6)}`}>
-    {screenShares.map((share) => (
-      <div className="screen-tile" key={share.id}>
-        <video
-          className="screen-video"
-          autoPlay
-          playsInline
-          muted={share.socketId === "local" || share.socketId === "camera-local"}
-          onDoubleClick={(e) => e.currentTarget.requestFullscreen?.()}
-          ref={(video) => {
-            if (video && video.srcObject !== share.stream) {
-              video.srcObject = share.stream;
-            }
-          }}
-        />
-
-        <div className="screen-topbar">
-          <span>
-            {share.type === "camera"
-              ? "Your Camera"
-              : share.socketId === "local"
-              ? "Your Screen"
-              : members.find((member) => member.socketId === share.socketId)?.username
-              ? `${members.find((member) => member.socketId === share.socketId)?.username} sharing`
-              : "Shared Video"}
-          </span>
-
-          <button
-            className="screen-full-btn"
-            onClick={(e) => {
-              const video = e.currentTarget
-                .closest(".screen-tile")
-                ?.querySelector("video");
-
-              video?.requestFullscreen?.();
-            }}
-          >
-            ⛶ Fullscreen
-          </button>
-        </div>
-      </div>
-    ))}
-  </div>
-)}
-
-
-              <div className={`center-members ${screenShares.length > 0 ? "screen-active" : ""}`}>
+            <div className="side left-members-panel">
+              <div className="center-members left-member-list">
                 <div className="center-members-title">
                   <span>Voice Members</span>
                   <small>{members.length} online</small>
@@ -1461,6 +1316,95 @@ const toggleScreenShare = async () => {
                   })}
                 </div>
               </div>
+            </div>
+
+            <div className="arena compact-arena">
+              <div className="room-status-bar">
+                <div>
+                  <b>{username}</b>
+                  <span>{message}</span>
+                </div>
+
+                <div className="live-status compact-live-status">
+                  <span className={micOn ? "dot active" : "dot danger"}></span>
+                  {pushToTalkOn
+                    ? micOn
+                      ? "PTT speaking"
+                      : `Hold ${pttKey.toUpperCase()}`
+                    : micOn
+                    ? "Voice connected"
+                    : "Mic muted"}
+                </div>
+              </div>
+<div className={`screen-grid screen-count-${Math.min(screenShares.length, 6)}`}>
+  {screenShares.length > 0 ? (
+    screenShares.map((share) => {
+      const ownerName =
+        share.socketId === "local" || share.socketId === "camera-local"
+          ? "You"
+          : members.find((member) => member.socketId === share.socketId)?.username ||
+            "Member";
+
+      const mediaType = share.type === "camera" ? "Camera" : "Screen";
+
+      return (
+        <div className="video-card screen-tile" key={share.id}>
+          <video
+            className="screen-video"
+            autoPlay
+            playsInline
+            muted={share.socketId === "local" || share.socketId === "camera-local"}
+            onDoubleClick={(e) => e.currentTarget.requestFullscreen?.()}
+            ref={(video) => {
+              if (video && video.srcObject !== share.stream) {
+                video.srcObject = share.stream;
+              }
+            }}
+          />
+
+          <div className="video-live">LIVE</div>
+
+          <div className="video-label">
+            {ownerName} • {mediaType}
+          </div>
+
+          <button
+            className="screen-full-btn video-fullscreen-btn"
+            onClick={(e) => {
+              const video = e.currentTarget
+                .closest(".video-card")
+                ?.querySelector("video");
+
+              video?.requestFullscreen?.();
+            }}
+          >
+            ⛶
+          </button>
+        </div>
+      );
+    })
+  ) : (
+    <div className="room-display compact-display empty-media-state">
+      <div className="compact-brand">
+        <div className="mini-phoenix">
+          <div className="wing wing-left"></div>
+          <div className="wing wing-right"></div>
+          <div className="phoenix-body"></div>
+          <div className="phoenix-head"></div>
+          <div className="phoenix-tail"></div>
+        </div>
+
+        <span>ECHOROOM ACTIVE</span>
+      </div>
+
+      <h2>Room Ready</h2>
+      <p>Start screen share or camera to begin streaming.</p>
+    </div>
+  )}
+</div>
+
+
+
 
               <div className="controls">
                 <button
