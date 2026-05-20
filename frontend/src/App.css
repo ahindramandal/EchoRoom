@@ -3996,3 +3996,62 @@ body {
     height: auto !important;
   }
 }
+/* ===== FIX CENTER MEDIA EMPTY GAP ===== */
+
+.room-layout {
+  display: grid !important;
+  grid-template-columns: 320px minmax(0, 1fr) 380px !important;
+  gap: 18px !important;
+  height: calc(100vh - 110px) !important;
+}
+
+.compact-arena {
+  width: 100% !important;
+  height: 100% !important;
+  padding: 18px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+/* yehi kachra hata raha hai */
+.compact-arena > .room-status-bar {
+  display: none !important;
+}
+
+.screen-grid {
+  width: 100% !important;
+  height: 100% !important;
+  flex: 1 !important;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)) !important;
+  gap: 16px !important;
+  overflow: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.screen-tile,
+.video-card {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 360px !important;
+  background: #000 !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+}
+
+.screen-video {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  background: #000 !important;
+}
+
+@media (max-width: 1100px) {
+  .room-layout {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+  }
+}
