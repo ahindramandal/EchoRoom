@@ -1416,7 +1416,7 @@ const toggleScreenShare = async () => {
                       ? "Mute Mic"
                       : "Turn On Mic"
                   }
-                   onClick={toggleMic}
+                  onClick={toggleMic}
                 >
                   <span className={!micOn ? "muted-mic-icon" : ""}>🎙️</span>
                 </button>
