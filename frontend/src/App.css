@@ -4757,3 +4757,134 @@ body {
 .status {
   word-break: break-word;
 }
+
+
+/* ===== HOTFIX 2: media inside member tile + contained bottom dock ===== */
+.room-shell-next {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  grid-template-rows: 74px minmax(0, 1fr) auto !important;
+  overflow: hidden !important;
+  padding: 16px 18px 14px !important;
+}
+
+.room-stage-next {
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.main-member-window {
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.member-media-grid {
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow-y: auto !important;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+  grid-auto-rows: minmax(190px, 1fr) !important;
+  align-content: start !important;
+}
+
+.member-tile.media-active {
+  padding: 0 !important;
+  gap: 0 !important;
+  background: rgba(0, 0, 0, 0.72) !important;
+}
+
+.tile-media-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #000;
+  display: grid;
+  place-items: center;
+}
+
+.embedded-tile-video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #000 !important;
+}
+
+.member-tile.media-active .tile-name-row,
+.member-tile.media-active .voice-bars,
+.member-tile.media-active .tile-status-icons,
+.member-tile.media-active .tile-volume {
+  position: relative;
+  z-index: 3;
+}
+
+.member-tile.media-active .tile-name-row {
+  position: absolute;
+  left: 14px;
+  bottom: 52px;
+  background: rgba(0,0,0,0.5);
+  padding: 7px 10px;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+}
+
+.member-tile.media-active .voice-bars {
+  position: absolute;
+  left: 18px;
+  bottom: 27px;
+}
+
+.member-tile.media-active .tile-status-icons {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+}
+
+.member-tile.media-active .tile-menu-btn,
+.member-tile.media-active .tile-top-tag {
+  z-index: 5;
+}
+
+.bottom-control-dock {
+  width: min(980px, calc(100vw - 44px)) !important;
+  min-width: 0 !important;
+  max-width: calc(100vw - 44px) !important;
+  min-height: 86px !important;
+  padding: 12px 14px !important;
+  gap: 14px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.call-controls-next {
+  flex: 0 0 auto !important;
+  display: flex !important;
+  gap: 10px !important;
+}
+
+.ptt-dock-next {
+  flex: 1 1 360px !important;
+  min-width: 260px !important;
+  max-width: 520px !important;
+  margin: 0 !important;
+}
+
+@media (max-width: 980px) {
+  .room-stage-next {
+    grid-template-columns: 1fr !important;
+  }
+
+  .right-activity-panel {
+    display: none !important;
+  }
+
+  .bottom-control-dock {
+    flex-wrap: wrap !important;
+    min-height: auto !important;
+  }
+
+  .ptt-dock-next {
+    flex-basis: 100% !important;
+  }
+}

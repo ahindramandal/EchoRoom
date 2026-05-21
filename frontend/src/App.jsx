@@ -348,7 +348,7 @@ function App() {
     cameraStreamRef.current = null;
 
     if (!silent && roomId) {
-      socket.emit("screen-share-stopped", { roomId });
+      socket.emit("camera-stopped", { roomId });
     }
 
     if (!silent) {
@@ -384,7 +384,8 @@ function App() {
       }
 
       await attachCameraToPeersAndOffer(cameraStream);
-      socket.emit("screen-share-started", { roomId });
+      socket.emit("camera-started", { roomId });
+      socket.emit("member-status", { roomId, micOn, deafenOn, cameraOn: true });
       setMessage("Camera started.");
     } catch (error) {
       console.error("Camera error:", error);
@@ -1301,48 +1302,27 @@ const toggleScreenShare = async () => {
           <main className="room-stage-next">
             <section className="main-member-window">
               <div className={`member-media-grid grid-total-${Math.min(members.length + screenShares.length, 9)}`}>
-                {screenShares.map((share) => {
-                  const ownerName =
-                    share.socketId === "local" || share.socketId === "camera-local"
-                      ? "You"
-                      : members.find((member) => member.socketId === share.socketId)?.username || "Member";
-                  const mediaType = share.type === "camera" ? "Camera" : "Screen";
-
-                  return (
-                    <div className="member-tile media-member-tile" key={share.id}>
-                      <video
-                        className="screen-video tile-video"
-                        autoPlay
-                        playsInline
-                        muted={share.socketId === "local" || share.socketId === "camera-local"}
-                        onDoubleClick={(e) => e.currentTarget.requestFullscreen?.()}
-                        ref={(video) => {
-                          if (video && video.srcObject !== share.stream) {
-                            video.srcObject = share.stream;
-                          }
-                        }}
-                      />
-                      <div className="tile-top-tag">LIVE</div>
-                      <div className="tile-name media-name">{ownerName} • {mediaType}</div>
-                      <button
-                        className="tile-menu-btn"
-                        onClick={(e) => {
-                          const video = e.currentTarget.closest(".member-tile")?.querySelector("video");
-                          video?.requestFullscreen?.();
-                        }}
-                      >⛶</button>
-                    </div>
-                  );
-                })}
-
                 {members.map((member, index) => {
                   const isMe = member.socketId === socket.id;
                   const volumeValue = userVolumes[member.socketId] ?? 1;
                   const animal = getAnimalType(index);
                   const accent = getTileAccent(index);
+                  const memberShare = screenShares.find((share) => {
+                    if (isMe) {
+                      return (
+                        share.socketId === "local" ||
+                        share.socketId === "camera-local" ||
+                        share.id === "local-screen" ||
+                        share.id === "local-camera"
+                      );
+                    }
+
+                    return share.socketId === member.socketId;
+                  });
+                  const hasMedia = Boolean(memberShare);
 
                   return (
-                    <div className={`member-tile accent-${accent} ${member.speaking ? "speaking" : ""}`} key={member.socketId}>
+                    <div className={`member-tile accent-${accent} ${member.speaking ? "speaking" : ""} ${hasMedia ? "media-active" : ""}`} key={member.socketId}>
                       <button
                         className="tile-menu-btn"
                         onClick={() =>
@@ -1360,9 +1340,27 @@ const toggleScreenShare = async () => {
                         </div>
                       )}
 
-                      <div className={`animal-circle ${member.speaking ? "talking" : ""}`}>
-                        <AnimalLogo type={animal} />
-                      </div>
+                      {hasMedia ? (
+                        <div className="tile-media-wrap">
+                          <video
+                            className="tile-video embedded-tile-video"
+                            autoPlay
+                            playsInline
+                            muted={isMe}
+                            onDoubleClick={(e) => e.currentTarget.requestFullscreen?.()}
+                            ref={(video) => {
+                              if (video && video.srcObject !== memberShare.stream) {
+                                video.srcObject = memberShare.stream;
+                              }
+                            }}
+                          />
+                          <span className="tile-top-tag">{memberShare.type === "camera" ? "CAM" : "LIVE"}</span>
+                        </div>
+                      ) : (
+                        <div className={`animal-circle ${member.speaking ? "talking" : ""}`}>
+                          <AnimalLogo type={animal} />
+                        </div>
+                      )}
 
                       <div className="tile-name-row">
                         <b>{member.username}</b>
