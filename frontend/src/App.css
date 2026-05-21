@@ -5026,3 +5026,46 @@ body {
     transform: translateY(-3px) scale(1.035);
   }
 }
+
+
+/* ===== recognizable mythical SVG logo polish ===== */
+.logo-fill {
+  fill: currentColor;
+}
+
+.logo-soft {
+  opacity: 0.46;
+}
+
+.logo-cut {
+  fill: #02040d;
+  opacity: 0.98;
+}
+
+.subtle-cut {
+  opacity: 0.5;
+}
+
+.animal-svg .logo-mark {
+  transform-origin: 50% 50%;
+}
+
+.animal-circle .animal-svg {
+  width: 86%;
+  height: 86%;
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 45%, transparent));
+}
+
+.brand-pegasus .animal-svg {
+  filter: none;
+}
+
+.bg-creature {
+  opacity: 0.2;
+}
+
+.bg-creature .animal-svg {
+  width: 100%;
+  height: 100%;
+  filter: none;
+}
