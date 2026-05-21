@@ -5504,3 +5504,98 @@ body {
   color: #ff4b4b !important;
   filter: drop-shadow(0 0 5px rgba(255, 70, 70, 0.35)) !important;
 }
+
+/* ===== FINAL LOGO VISIBILITY FIX: normal logos clean, glow only while speaking ===== */
+.animal-logo-disc {
+  background: rgba(4, 10, 22, 0.38) !important;
+  border: 1px solid color-mix(in srgb, currentColor 42%, transparent) !important;
+  box-shadow:
+    0 0 6px color-mix(in srgb, currentColor 22%, transparent),
+    inset 0 0 10px rgba(255,255,255,0.025) !important;
+}
+
+.animal-logo-img {
+  width: 84% !important;
+  height: 84% !important;
+  filter: none !important;
+  opacity: 0.98 !important;
+}
+
+.member-tile .animal-logo-disc,
+.tile-card .animal-logo-disc,
+.pro-member .animal-logo-disc,
+.member .animal-logo-disc,
+.center-member-card .animal-logo-disc,
+.member-avatar-next .animal-logo-disc,
+.voice-tile .animal-logo-disc {
+  animation: none !important;
+}
+
+.member-tile .animal-logo-img,
+.tile-card .animal-logo-img,
+.pro-member .animal-logo-img,
+.member .animal-logo-img,
+.center-member-card .animal-logo-img,
+.member-avatar-next .animal-logo-img,
+.voice-tile .animal-logo-img {
+  animation: none !important;
+}
+
+/* speaking: only then glow + slight up-down animation */
+.member-tile.speaking .animal-logo-disc,
+.tile-card.speaking .animal-logo-disc,
+.pro-member.speaking .animal-logo-disc,
+.member.speaking .animal-logo-disc,
+.center-member-card.speaking .animal-logo-disc,
+.member-avatar-next.speaking .animal-logo-disc,
+.voice-tile.speaking .animal-logo-disc {
+  animation: cleanAnimalSpeakGlow 0.95s ease-in-out infinite !important;
+  border-color: color-mix(in srgb, currentColor 86%, transparent) !important;
+}
+
+.member-tile.speaking .animal-logo-img,
+.tile-card.speaking .animal-logo-img,
+.pro-member.speaking .animal-logo-img,
+.member.speaking .animal-logo-img,
+.center-member-card.speaking .animal-logo-img,
+.member-avatar-next.speaking .animal-logo-img,
+.voice-tile.speaking .animal-logo-img {
+  animation: cleanAnimalSpeakFloat 0.85s ease-in-out infinite !important;
+  filter:
+    drop-shadow(0 0 5px color-mix(in srgb, currentColor 55%, transparent))
+    drop-shadow(0 0 12px color-mix(in srgb, currentColor 30%, transparent)) !important;
+}
+
+@keyframes cleanAnimalSpeakGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 8px color-mix(in srgb, currentColor 34%, transparent),
+      inset 0 0 12px rgba(255,255,255,0.03) !important;
+  }
+  50% {
+    transform: scale(1.035);
+    box-shadow:
+      0 0 18px color-mix(in srgb, currentColor 58%, transparent),
+      0 0 34px color-mix(in srgb, currentColor 24%, transparent),
+      inset 0 0 15px rgba(255,255,255,0.05) !important;
+  }
+}
+
+@keyframes cleanAnimalSpeakFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-4px) scale(1.035); }
+}
+
+/* keep brand logo soft, not washed out */
+.logo .animal-logo-img,
+.brand-pegasus .animal-logo-img,
+.room-pulse .animal-logo-img {
+  filter: drop-shadow(0 0 7px rgba(125,211,252,0.25)) !important;
+}
+
+.logo .animal-logo-disc,
+.brand-pegasus .animal-logo-disc,
+.room-pulse .animal-logo-disc {
+  box-shadow: none !important;
+}
