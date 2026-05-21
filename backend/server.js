@@ -4,19 +4,19 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 
 const app = express();
+
 app.use(cors());
 
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-   cors: {
-  origin: [
-    "http://localhost:5173",
-    "https://echo-room-nine.vercel.app"
-  ],
-  methods: ["GET", "POST"],
-},
+    origin: [
+      "http://localhost:5173",
+      "https://echo-room-nine.vercel.app",
+      "https://echoroom.vercel.app",
+    ],
+    methods: ["GET", "POST"],
   },
 });
 
@@ -52,7 +52,10 @@ function closeRoom(roomId) {
 
   room.members.forEach((member) => {
     const memberSocket = io.sockets.sockets.get(member.socketId);
-    if (memberSocket) memberSocket.leave(roomId);
+
+    if (memberSocket) {
+      memberSocket.leave(roomId);
+    }
   });
 
   delete rooms[roomId];
@@ -61,13 +64,16 @@ function closeRoom(roomId) {
 function removeUser(socket) {
   for (const roomId in rooms) {
     const room = rooms[roomId];
+
     const wasHost = room.hostId === socket.id;
 
     room.members = room.members.filter(
       (member) => member.socketId !== socket.id
     );
 
-    room.requests = room.requests.filter((req) => req.socketId !== socket.id);
+    room.requests = room.requests.filter(
+      (req) => req.socketId !== socket.id
+    );
 
     socket.to(roomId).emit("user-left-voice", {
       socketId: socket.id,
@@ -86,7 +92,10 @@ function removeUser(socket) {
       continue;
     }
 
-    io.to(roomId).emit("members-updated", getPublicMembers(room));
+    io.to(roomId).emit(
+      "members-updated",
+      getPublicMembers(room)
+    );
   }
 }
 
@@ -140,14 +149,18 @@ io.on("connection", (socket) => {
     room.requests.push(request);
 
     io.to(room.hostId).emit("incoming-request", request);
+
     socket.emit("request-sent");
   });
 
   socket.on("approve-request", ({ roomId, socketId, username }) => {
     const room = rooms[roomId];
+
     if (!room) return;
 
-    room.requests = room.requests.filter((req) => req.socketId !== socketId);
+    room.requests = room.requests.filter(
+      (req) => req.socketId !== socketId
+    );
 
     room.members.push({
       socketId,
@@ -159,8 +172,12 @@ io.on("connection", (socket) => {
       cameraOn: false,
     });
 
-    const memberSocket = io.sockets.sockets.get(socketId);
-    if (memberSocket) memberSocket.join(roomId);
+    const memberSocket =
+      io.sockets.sockets.get(socketId);
+
+    if (memberSocket) {
+      memberSocket.join(roomId);
+    }
 
     io.to(socketId).emit("request-approved", {
       roomId,
@@ -168,7 +185,10 @@ io.on("connection", (socket) => {
       messages: room.messages,
     });
 
-    io.to(roomId).emit("members-updated", getPublicMembers(room));
+    io.to(roomId).emit(
+      "members-updated",
+      getPublicMembers(room)
+    );
   });
 
   socket.on("leave-room", ({ roomId }) => {
@@ -185,7 +205,9 @@ io.on("connection", (socket) => {
       (member) => member.socketId !== socket.id
     );
 
-    room.requests = room.requests.filter((req) => req.socketId !== socket.id);
+    room.requests = room.requests.filter(
+      (req) => req.socketId !== socket.id
+    );
 
     socket.leave(roomId);
 
@@ -207,43 +229,67 @@ io.on("connection", (socket) => {
       return;
     }
 
-    io.to(roomId).emit("members-updated", getPublicMembers(room));
+    io.to(roomId).emit(
+      "members-updated",
+      getPublicMembers(room)
+    );
+
     socket.emit("left-room");
   });
 
-  socket.on("member-status", ({ roomId, micOn, deafenOn, cameraOn }) => {
-    const room = rooms[roomId];
-    if (!room) return;
+  socket.on(
+    "member-status",
+    ({ roomId, micOn, deafenOn, cameraOn }) => {
+      const room = rooms[roomId];
 
-    const member = room.members.find((m) => m.socketId === socket.id);
-    if (!member) return;
+      if (!room) return;
 
-    member.micOn = micOn;
-    member.deafenOn = deafenOn;
+      const member = room.members.find(
+        (m) => m.socketId === socket.id
+      );
 
-    if (typeof cameraOn === "boolean") {
-      member.cameraOn = cameraOn;
+      if (!member) return;
+
+      member.micOn = micOn;
+      member.deafenOn = deafenOn;
+
+      if (typeof cameraOn === "boolean") {
+        member.cameraOn = cameraOn;
+      }
+
+      if (!micOn) {
+        member.speaking = false;
+      }
+
+      io.to(roomId).emit(
+        "members-updated",
+        getPublicMembers(room)
+      );
     }
-
-    if (!micOn) member.speaking = false;
-
-    io.to(roomId).emit("members-updated", getPublicMembers(room));
-  });
+  );
 
   socket.on("speaking-status", ({ roomId, speaking }) => {
     const room = rooms[roomId];
+
     if (!room) return;
 
-    const member = room.members.find((m) => m.socketId === socket.id);
+    const member = room.members.find(
+      (m) => m.socketId === socket.id
+    );
+
     if (!member) return;
 
     member.speaking = speaking;
 
-    io.to(roomId).emit("members-updated", getPublicMembers(room));
+    io.to(roomId).emit(
+      "members-updated",
+      getPublicMembers(room)
+    );
   });
 
   socket.on("voice-ready", ({ roomId }) => {
     const room = rooms[roomId];
+
     if (!room) return;
 
     const users = room.members
@@ -305,79 +351,118 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.on("send-chat-message", ({ roomId, text, username }) => {
-    const room = rooms[roomId];
-    if (!room) return;
+  socket.on(
+    "send-chat-message",
+    ({ roomId, text, username }) => {
+      const room = rooms[roomId];
 
-    const message = {
-      id: `${Date.now()}-${socket.id}`,
-      socketId: socket.id,
-      username,
-      text,
-      time: new Date().toLocaleTimeString(),
-    };
+      if (!room) return;
 
-    room.messages.push(message);
+      const message = {
+        id: `${Date.now()}-${socket.id}`,
+        socketId: socket.id,
+        username,
+        text,
+        time: new Date().toLocaleTimeString(),
+      };
 
-    if (room.messages.length > 100) {
-      room.messages.shift();
+      room.messages.push(message);
+
+      if (room.messages.length > 100) {
+        room.messages.shift();
+      }
+
+      io.to(roomId).emit("chat-message", message);
     }
+  );
 
-    io.to(roomId).emit("chat-message", message);
-  });
+  socket.on(
+    "host-set-mic",
+    ({ roomId, targetSocketId, micOn }) => {
+      const room = rooms[roomId];
 
-  socket.on("host-set-mic", ({ roomId, targetSocketId, micOn }) => {
-    const room = rooms[roomId];
-    if (!room) return;
-    if (room.hostId !== socket.id) return;
+      if (!room) return;
 
-    io.to(targetSocketId).emit("force-mic-state", { micOn });
-  });
+      if (room.hostId !== socket.id) return;
 
-  socket.on("host-set-deafen", ({ roomId, targetSocketId, deafenOn }) => {
-    const room = rooms[roomId];
-    if (!room) return;
-    if (room.hostId !== socket.id) return;
-
-    io.to(targetSocketId).emit("force-deafen-state", { deafenOn });
-  });
-
-  socket.on("host-kick-member", ({ roomId, targetSocketId }) => {
-    const room = rooms[roomId];
-    if (!room) return;
-    if (room.hostId !== socket.id) return;
-
-    const targetSocket = io.sockets.sockets.get(targetSocketId);
-
-    if (targetSocket) {
-      targetSocket.leave(roomId);
-      io.to(targetSocketId).emit("kicked-from-room");
+      io.to(targetSocketId).emit(
+        "force-mic-state",
+        { micOn }
+      );
     }
+  );
 
-    room.members = room.members.filter(
-      (member) => member.socketId !== targetSocketId
-    );
+  socket.on(
+    "host-set-deafen",
+    ({ roomId, targetSocketId, deafenOn }) => {
+      const room = rooms[roomId];
 
-    io.to(roomId).emit("members-updated", getPublicMembers(room));
+      if (!room) return;
 
-    io.to(roomId).emit("user-left-voice", {
-      socketId: targetSocketId,
-    });
+      if (room.hostId !== socket.id) return;
 
-    io.to(roomId).emit("camera-stopped", {
-      socketId: targetSocketId,
-    });
+      io.to(targetSocketId).emit(
+        "force-deafen-state",
+        { deafenOn }
+      );
+    }
+  );
 
-    io.to(roomId).emit("screen-share-stopped", {
-      socketId: targetSocketId,
-    });
-  });
+  socket.on(
+    "host-kick-member",
+    ({ roomId, targetSocketId }) => {
+      const room = rooms[roomId];
+
+      if (!room) return;
+
+      if (room.hostId !== socket.id) return;
+
+      const targetSocket =
+        io.sockets.sockets.get(targetSocketId);
+
+      if (targetSocket) {
+        targetSocket.leave(roomId);
+
+        io.to(targetSocketId).emit(
+          "kicked-from-room"
+        );
+      }
+
+      room.members = room.members.filter(
+        (member) =>
+          member.socketId !== targetSocketId
+      );
+
+      io.to(roomId).emit(
+        "members-updated",
+        getPublicMembers(room)
+      );
+
+      io.to(roomId).emit("user-left-voice", {
+        socketId: targetSocketId,
+      });
+
+      io.to(roomId).emit("camera-stopped", {
+        socketId: targetSocketId,
+      });
+
+      io.to(roomId).emit("screen-share-stopped", {
+        socketId: targetSocketId,
+      });
+    }
+  );
 
   socket.on("disconnect", () => {
     removeUser(socket);
+
     console.log("Disconnected:", socket.id);
   });
 });
+
+app.get("/", (req, res) => {
+  res.send("EchoRoom backend running...");
+});
+
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {

@@ -1117,369 +1117,285 @@ const toggleScreenShare = async () => {
 
   const responsiveVideoStyles = ``;
 
+  const animalTypes = [
+    "pegasus",
+    "phoenix",
+    "dragon",
+    "wolf",
+    "deer",
+    "lion",
+    "raven",
+    "shark",
+    "crocodile",
+    "scorpion",
+  ];
+
+  const getAnimalType = (index) => animalTypes[index % animalTypes.length];
+
+  const getTileAccent = (index) => {
+    const accents = ["blue", "orange", "green", "purple", "gold", "red", "violet", "cyan"];
+    return accents[index % accents.length];
+  };
+
+  const AnimalLogo = ({ type = "dragon" }) => {
+    const common = { viewBox: "0 0 120 120", fill: "none", xmlns: "http://www.w3.org/2000/svg" };
+
+    if (type === "phoenix") {
+      return (
+        <svg {...common} className="animal-svg phoenix-svg">
+          <path className="logo-fill" d="M60 19c5 13 7 26 4 38 16-18 29-23 45-23-9 15-20 28-35 37 12 1 22 4 31 11-17 5-32 4-45-5-13 9-28 10-45 5 9-7 19-10 31-11-15-9-26-22-35-37 16 0 29 5 45 23-3-12-1-25 4-38Z" />
+          <path className="logo-cut" d="M60 35c8 16 7 33 0 50-7-17-8-34 0-50Z" />
+          <path className="logo-fill" d="M60 52l12 17-12 31-12-31 12-17Z" />
+        </svg>
+      );
+    }
+
+    if (type === "pegasus") {
+      return (
+        <svg {...common} className="animal-svg pegasus-svg">
+          <path className="logo-fill" d="M30 68c14-23 38-33 61-23-12 4-19 9-23 17 11 1 19 7 24 18-12-5-24-7-35-5-9 2-18 1-27-7Z" />
+          <path className="logo-fill soft" d="M29 63C19 50 15 37 18 23c12 11 22 24 32 41-8-4-15-4-21-1Z" />
+          <path className="logo-fill soft" d="M46 58C39 42 37 28 42 16c10 14 17 28 19 45-6-4-11-5-15-3Z" />
+          <path className="logo-cut" d="M77 45l12-13-1 18 13 7-17 4-7-16Z" />
+        </svg>
+      );
+    }
+
+    if (type === "wolf") {
+      return (
+        <svg {...common} className="animal-svg wolf-svg">
+          <path className="logo-fill" d="M21 72c18-31 42-46 78-47-11 8-18 17-22 27 9 3 15 9 22 19-16-5-29-5-40-1-12 5-24 6-38 2Z" />
+          <path className="logo-cut" d="M74 43l14-8-7 15 13 4-17 5-3-16Z" />
+        </svg>
+      );
+    }
+
+    if (type === "deer") {
+      return (
+        <svg {...common} className="animal-svg deer-svg">
+          <path className="logo-fill" d="M60 34c14 0 25 11 25 25 0 22-25 43-25 43S35 81 35 59c0-14 11-25 25-25Z" />
+          <path className="logo-fill soft" d="M41 42C27 27 28 15 33 8c8 12 18 18 27 22 9-4 19-10 27-22 5 7 6 19-8 34-11-9-27-9-38 0Z" />
+          <path className="logo-cut" d="M48 58h24l-12 25-12-25Z" />
+        </svg>
+      );
+    }
+
+    if (type === "lion") {
+      return (
+        <svg {...common} className="animal-svg lion-svg">
+          <path className="logo-fill" d="M60 14l15 15 21-1-5 20 13 17-20 7-8 20-16-12-16 12-8-20-20-7 13-17-5-20 21 1L60 14Z" />
+          <path className="logo-cut" d="M42 55c11-18 31-18 42-2-12-3-25 2-35 15l-7-13Z" />
+        </svg>
+      );
+    }
+
+    if (type === "raven") {
+      return (
+        <svg {...common} className="animal-svg raven-svg">
+          <path className="logo-fill" d="M18 65c24-28 54-38 87-31-17 8-28 19-34 34 15-2 27 1 36 9-25 4-47 2-66-7-10-5-18-6-23-5Z" />
+          <path className="logo-fill soft" d="M44 71l-9 31 25-24 25 24-9-31H44Z" />
+        </svg>
+      );
+    }
+
+    if (type === "shark") {
+      return (
+        <svg {...common} className="animal-svg shark-svg">
+          <path className="logo-fill" d="M15 66c28-30 62-39 96-27-18 2-31 8-39 19 14 0 26 4 36 13-31 8-60 7-93-5Z" />
+          <path className="logo-cut" d="M82 47l21-12-8 24-13-12Z" />
+        </svg>
+      );
+    }
+
+    if (type === "crocodile") {
+      return (
+        <svg {...common} className="animal-svg crocodile-svg">
+          <path className="logo-fill" d="M15 70c20-31 54-42 94-30-17 4-30 11-39 20 16-2 30 1 41 10-31 14-63 14-96 0Z" />
+          <path className="logo-cut" d="M52 55l8-10 8 10 8-10 8 10-16 11-16-11Z" />
+        </svg>
+      );
+    }
+
+    if (type === "scorpion") {
+      return (
+        <svg {...common} className="animal-svg scorpion-svg">
+          <path className="logo-fill" d="M57 35c18 0 31 13 31 31 0 14-8 25-21 29 14-20 9-43-10-43-17 0-23 18-13 34C28 80 22 65 30 51c6-10 16-16 27-16Z" />
+          <path className="logo-fill soft" d="M75 25c19-10 33 1 28 18-5-10-16-12-28-4V25Z" />
+        </svg>
+      );
+    }
+
+    return (
+      <svg {...common} className="animal-svg dragon-svg">
+        <path className="logo-fill" d="M21 72c12-28 37-48 72-58-7 11-9 21-7 31 9 2 18 7 27 16-14-1-25 2-34 8-17 12-36 14-58 3Z" />
+        <path className="logo-fill soft" d="M40 64c-6 23 7 37 34 41-20 6-40 0-51-14-9-12-7-24 17-27Z" />
+        <path className="logo-cut" d="M78 33l17-12-5 21 17 8-23 2-6-19Z" />
+      </svg>
+    );
+  };
+
+  const renderStatusIcons = (member) => (
+    <div className="tile-status-icons">
+      <span className={member.micOn ? "status-dot mic-on" : "status-dot mic-off"} title={member.micOn ? "Mic on" : "Muted"}>
+        {member.micOn ? "🎙" : "🎙"}
+      </span>
+      <span className={member.deafenOn ? "status-dot deaf-on" : "status-dot deaf-off"} title={member.deafenOn ? "Deafened" : "Not deafened"}>
+        🎧
+      </span>
+      <span className={member.cameraOn ? "status-dot cam-on" : "status-dot cam-off"} title={member.cameraOn ? "Camera on" : "Camera off"}>
+        ▣
+      </span>
+    </div>
+  );
+
   return (
-    <div className="app">
+    <div className="app echoroom-next">
       <style>{responsiveVideoStyles}</style>
       <div className="sky"></div>
-      <div className="city"></div>
-
-      <div className="fire fire-left"></div>
-      <div className="fire fire-right"></div>
-
-      <div className="shooting-star"></div>
-
-      <div className="stars-layer">
-        <span className="star star1"></span>
-        <span className="star star2"></span>
-        <span className="star star3"></span>
-        <span className="star star4"></span>
-        <span className="star star5"></span>
-        <span className="star star6"></span>
-        <span className="star star7"></span>
-        <span className="star star8"></span>
+      <div className="split-glow split-blue"></div>
+      <div className="split-glow split-orange"></div>
+      <div className="bg-creature bg-dragon"><AnimalLogo type="dragon" /></div>
+      <div className="bg-creature bg-phoenix"><AnimalLogo type="phoenix" /></div>
+      <div className="particle-field">
+        {Array.from({ length: 28 }).map((_, index) => (
+          <span key={index} className={`particle p${(index % 8) + 1}`}></span>
+        ))}
       </div>
 
       <div className="credit">Designed & Developed by Ahindra Mandal</div>
 
       {!isInRoom ? (
-        <div className="card">
-          <div className="logo">
-            <div className="phoenix">
-              <div className="wing wing-left"></div>
-              <div className="wing wing-right"></div>
-              <div className="phoenix-body"></div>
-              <div className="phoenix-head"></div>
-              <div className="phoenix-tail"></div>
-            </div>
-          </div>
-
-          <h1>
-            ECHO<span>ROOM</span>
-          </h1>
-
+        <div className="card login-card-next">
+          <div className="brand-pegasus"><AnimalLogo type="pegasus" /></div>
+          <h1>ECHO<span>ROOM</span></h1>
           <p className="tagline">SQUAD UP • LOCK IN • DOMINATE</p>
 
-          <input
-            type="text"
-            placeholder="Enter Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-
-          <input
-            type="text"
-            placeholder="Enter Room ID to Join"
-            value={roomId}
-            onChange={(e) => setRoomId(e.target.value)}
-          />
-
-          <button className="main-btn" onClick={joinRoom}>
-            REQUEST TO JOIN
-          </button>
-
-          <button className="secondary-btn" onClick={createRoom}>
-            CREATE ROOM
-          </button>
-
+          <input type="text" placeholder="Enter Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <input type="text" placeholder="Enter Room ID to Join" value={roomId} onChange={(e) => setRoomId(e.target.value)} />
+          <button className="main-btn" onClick={joinRoom}>REQUEST TO JOIN</button>
+          <button className="secondary-btn" onClick={createRoom}>CREATE ROOM</button>
           <p className="status">{message}</p>
         </div>
       ) : (
-        <div className="room-card">
-          <div className="room-top">
-            <div>
-              <h1>War Room</h1>
-              <p>
-                Room ID: <b>{roomId}</b>
-              </p>
+        <div className="room-shell-next">
+          <header className="topbar-next">
+            <div className="room-id-block">
+              <span>Room ID:</span>
+              <b>{roomId}</b>
             </div>
 
-            <div className="badge">{isHost ? "HOST" : "MEMBER"}</div>
-          </div>
+            <div className="center-brand-next">
+              <div className="brand-pegasus small"><AnimalLogo type="pegasus" /></div>
+              <strong>ECHOROOM</strong>
+              <small>{message}</small>
+            </div>
 
-          <div className="room-layout">
-            <div className="side left-members-panel">
-              <div className="center-members left-member-list">
-                <div className="center-members-title">
-                  <span>Voice Members</span>
-                  <small>{members.length} online</small>
-                </div>
+            <div className="badge host-badge-next">{isHost ? "HOST" : "MEMBER"}</div>
+          </header>
 
-                <div className="center-members-list">
-                  {members.map((member) => {
-                    const isMe = member.socketId === socket.id;
-                    const volumeValue = userVolumes[member.socketId] ?? 1;
+          <main className="room-stage-next">
+            <section className="main-member-window">
+              <div className={`member-media-grid grid-total-${Math.min(members.length + screenShares.length, 9)}`}>
+                {screenShares.map((share) => {
+                  const ownerName =
+                    share.socketId === "local" || share.socketId === "camera-local"
+                      ? "You"
+                      : members.find((member) => member.socketId === share.socketId)?.username || "Member";
+                  const mediaType = share.type === "camera" ? "Camera" : "Screen";
 
-                    return (
-                      <div
-                        className={`center-member-card ${member.speaking ? "speaking" : ""}`}
-                        key={member.socketId}
-                      >
-                        <div className={`center-avatar ${member.speaking ? "talking" : ""}`}>
-                          {member.username.slice(0, 1).toUpperCase()}
+                  return (
+                    <div className="member-tile media-member-tile" key={share.id}>
+                      <video
+                        className="screen-video tile-video"
+                        autoPlay
+                        playsInline
+                        muted={share.socketId === "local" || share.socketId === "camera-local"}
+                        onDoubleClick={(e) => e.currentTarget.requestFullscreen?.()}
+                        ref={(video) => {
+                          if (video && video.srcObject !== share.stream) {
+                            video.srcObject = share.stream;
+                          }
+                        }}
+                      />
+                      <div className="tile-top-tag">LIVE</div>
+                      <div className="tile-name media-name">{ownerName} • {mediaType}</div>
+                      <button
+                        className="tile-menu-btn"
+                        onClick={(e) => {
+                          const video = e.currentTarget.closest(".member-tile")?.querySelector("video");
+                          video?.requestFullscreen?.();
+                        }}
+                      >⛶</button>
+                    </div>
+                  );
+                })}
+
+                {members.map((member, index) => {
+                  const isMe = member.socketId === socket.id;
+                  const volumeValue = userVolumes[member.socketId] ?? 1;
+                  const animal = getAnimalType(index);
+                  const accent = getTileAccent(index);
+
+                  return (
+                    <div className={`member-tile accent-${accent} ${member.speaking ? "speaking" : ""}`} key={member.socketId}>
+                      <button
+                        className="tile-menu-btn"
+                        onClick={() =>
+                          setOpenMemberMenu((current) =>
+                            current === member.socketId ? null : member.socketId
+                          )
+                        }
+                      >⋯</button>
+
+                      {(isHost && !isMe) && openMemberMenu === member.socketId && (
+                        <div className="host-menu tile-host-menu">
+                          <button onClick={() => hostSetMic(member.socketId, !member.micOn)}>{member.micOn ? "Mute" : "Unmute"}</button>
+                          <button onClick={() => hostSetDeafen(member.socketId, !member.deafenOn)}>{member.deafenOn ? "Undeafen" : "Deafen"}</button>
+                          <button className="danger" onClick={() => hostKickMember(member.socketId)}>Kick</button>
                         </div>
+                      )}
 
-                        <div className="center-member-info">
-                          <div className="center-member-name">
-                            <b>{member.username}</b>
-                            {isMe && <small className="you-chip">YOU</small>}
-                          </div>
-
-                          <div className="center-member-sub">
-                            <small>{member.role || "Member"}</small>
-                            {!member.micOn && <span className="muted-mic-icon" title="Muted">🎙️</span>}
-                            {member.deafenOn && <span className="deafen-icon" title="Deafened">🎧</span>}
-                            {member.speaking && <span className="voice-wave">●●●</span>}
-                          </div>
-
-                          {!isMe && (
-                            <label className="center-volume" title="Local volume">
-                              <span>VOL</span>
-                              <input
-                                type="range"
-                                min="0"
-                                max="1"
-                                step="0.05"
-                                value={volumeValue}
-                                onChange={(e) =>
-                                  changeUserVolume(member.socketId, e.target.value)
-                                }
-                              />
-                            </label>
-                          )}
-                        </div>
-
-                        {isHost && !isMe && (
-                          <div className="host-menu-wrap center-host-menu">
-                            <button
-                              className="host-menu-btn"
-                              title="Host actions"
-                              onClick={() =>
-                                setOpenMemberMenu((current) =>
-                                  current === member.socketId ? null : member.socketId
-                                )
-                              }
-                            >
-                              ⋯
-                            </button>
-
-                            {openMemberMenu === member.socketId && (
-                              <div className="host-menu">
-                                <button
-                                  onClick={() =>
-                                    hostSetMic(member.socketId, !member.micOn)
-                                  }
-                                >
-                                  {member.micOn ? "Mute" : "Unmute"}
-                                </button>
-                                <button
-                                  onClick={() =>
-                                    hostSetDeafen(member.socketId, !member.deafenOn)
-                                  }
-                                >
-                                  {member.deafenOn ? "Undeafen" : "Deafen"}
-                                </button>
-                                <button
-                                  className="danger"
-                                  onClick={() => hostKickMember(member.socketId)}
-                                >
-                                  Kick
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        )}
+                      <div className={`animal-circle ${member.speaking ? "talking" : ""}`}>
+                        <AnimalLogo type={animal} />
                       </div>
-                    );
-                  })}
-                </div>
+
+                      <div className="tile-name-row">
+                        <b>{member.username}</b>
+                        {member.role === "Host" && <span className="role-chip">HOST</span>}
+                        {isMe && <span className="you-chip">YOU</span>}
+                      </div>
+
+                      {member.speaking ? (
+                        <div className="voice-bars active"><span></span><span></span><span></span><span></span><span></span></div>
+                      ) : (
+                        <div className="voice-bars"><span></span><span></span><span></span><span></span><span></span></div>
+                      )}
+
+                      {renderStatusIcons(member)}
+
+                      {!isMe && (
+                        <label className="tile-volume" title="Local volume">
+                          <span>VOL</span>
+                          <input type="range" min="0" max="1" step="0.05" value={volumeValue} onChange={(e) => changeUserVolume(member.socketId, e.target.value)} />
+                        </label>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
+            </section>
 
-              <div className="left-controls-stack">
-              <div className="controls">
-                <button
-                  className={`control-btn ${!micOn ? "off" : ""}`}
-                  data-tooltip={
-                    pushToTalkOn
-                      ? "PTT Mode Active"
-                      : micOn
-                      ? "Mute Mic"
-                      : "Turn On Mic"
-                  }
-                  onClick={toggleMic}
-                >
-                  <span className={!micOn ? "muted-mic-icon" : ""}>🎙️</span>
-                </button>
-
-                <button
-                  className={`control-btn ${deafenOn ? "off" : ""}`}
-                  data-tooltip={deafenOn ? "Undeafen" : "Deafen"}
-                  onClick={toggleDeafen}
-                >
-                  <span className={deafenOn ? "deafen-icon" : ""}>🎧</span>
-                </button>
-
-                <button
-                  className={`control-btn ${screenOn ? "on" : ""}`}
-                  data-tooltip={screenOn ? "Stop Screen" : "Share Screen"}
-                  onClick={toggleScreenShare}
-                >
-                  🖥️
-                </button>
-
-                <button
-                  className={`control-btn ${cameraOn ? "on" : ""}`}
-                  data-tooltip={cameraOn ? "Stop Camera" : "Camera"}
-                  onClick={toggleCamera}
-                >
-                  📷
-                </button>
-
-                <button
-                  className="control-btn leave-btn"
-                  data-tooltip="Leave Call"
-                  onClick={leaveRoom}
-                >
-                  📞
-                </button>
-              </div>
-
-              <div className="ptt-settings">
-                <div>
-                  <b>Push to Talk</b>
-                  <small>
-                    {pushToTalkOn
-                      ? `Hold "${pttKey.toUpperCase()}" to speak`
-                      : "Normal mic toggle mode"}
-                  </small>
-                </div>
-
-                <button
-                  className={pushToTalkOn ? "ptt-toggle active" : "ptt-toggle"}
-                  onClick={togglePushToTalk}
-                >
-                  {pushToTalkOn ? "ON" : "OFF"}
-                </button>
-
-                <button
-                  className="ptt-key"
-                  onClick={() => {
-                    setIsSettingKey(true);
-                    setMessage("Press any key for Push-to-Talk.");
-                  }}
-                >
-                  Key: {pttKey.toUpperCase()}
-                </button>
-              </div>
-
-              </div>
-            </div>
-
-            <div className="arena compact-arena">
-              <div className="room-status-bar">
-                <div>
-                  <b>{username}</b>
-                  <span>{message}</span>
-                </div>
-
-                <div className="live-status compact-live-status">
-                  <span className={micOn ? "dot active" : "dot danger"}></span>
-                  {pushToTalkOn
-                    ? micOn
-                      ? "PTT speaking"
-                      : `Hold ${pttKey.toUpperCase()}`
-                    : micOn
-                    ? "Voice connected"
-                    : "Mic muted"}
-                </div>
-              </div>
-<div className={`screen-grid screen-count-${Math.min(screenShares.length, 6)}`}>
-  {screenShares.length > 0 ? (
-    screenShares.map((share) => {
-      const ownerName =
-        share.socketId === "local" || share.socketId === "camera-local"
-          ? "You"
-          : members.find((member) => member.socketId === share.socketId)?.username ||
-            "Member";
-
-      const mediaType = share.type === "camera" ? "Camera" : "Screen";
-
-      return (
-        <div className="video-card screen-tile" key={share.id}>
-          <video
-            className="screen-video"
-            autoPlay
-            playsInline
-            muted={share.socketId === "local" || share.socketId === "camera-local"}
-            onDoubleClick={(e) => e.currentTarget.requestFullscreen?.()}
-            ref={(video) => {
-              if (video && video.srcObject !== share.stream) {
-                video.srcObject = share.stream;
-              }
-            }}
-          />
-
-          <div className="video-live">LIVE</div>
-
-          <div className="video-label">
-            {ownerName} • {mediaType}
-          </div>
-
-          <button
-            className="screen-full-btn video-fullscreen-btn"
-            onClick={(e) => {
-              const video = e.currentTarget
-                .closest(".video-card")
-                ?.querySelector("video");
-
-              video?.requestFullscreen?.();
-            }}
-          >
-            ⛶
-          </button>
-        </div>
-      );
-    })
-  ) : (
-    <div className="room-display compact-display empty-media-state">
-      <div className="compact-brand">
-        <div className="mini-phoenix">
-          <div className="wing wing-left"></div>
-          <div className="wing wing-right"></div>
-          <div className="phoenix-body"></div>
-          <div className="phoenix-head"></div>
-          <div className="phoenix-tail"></div>
-        </div>
-
-        <span>ECHOROOM ACTIVE</span>
-      </div>
-
-      <h2>Room Ready</h2>
-      <p>Start screen share or camera to begin streaming.</p>
-    </div>
-  )}
-</div>
-
-
-
-
-            </div>
-
-            <div className="side pro-side right-tools">
+            <aside className="right-activity-panel">
               {isHost && (
-                <div className="panel request-only-panel">
+                <div className="panel request-only-panel glass-panel-next">
                   <div className="panel-title request-title">
                     <h3>Join Requests</h3>
                     <small>{requests.length} pending</small>
                   </div>
-
-                  {requests.length === 0 && (
-                    <p className="empty">No pending requests</p>
-                  )}
-
+                  {requests.length === 0 && <p className="empty">No pending requests</p>}
                   {requests.map((request) => (
                     <div className="request" key={request.socketId}>
                       <span>{request.username}</span>
-
                       <div>
                         <button onClick={() => approveRequest(request)}>✓</button>
                         <button onClick={() => rejectRequest(request)}>✕</button>
@@ -1489,7 +1405,7 @@ const toggleScreenShare = async () => {
                 </div>
               )}
 
-              <div className="panel chat-panel">
+              <div className="panel chat-panel glass-panel-next chat-panel-next">
                 <div className="panel-title">
                   <h3>Squad Chat</h3>
                   <small>{chatMessages.length} msgs</small>
@@ -1500,14 +1416,8 @@ const toggleScreenShare = async () => {
                     <p className="empty chat-empty">No messages yet</p>
                   ) : (
                     chatMessages.map((item) => (
-                      <div
-                        className={`chat-message ${item.socketId === socket.id ? "own" : ""}`}
-                        key={item.id}
-                      >
-                        <div className="chat-meta">
-                          <b>{item.username}</b>
-                          <span>{item.time}</span>
-                        </div>
+                      <div className={`chat-message ${item.socketId === socket.id ? "own" : ""}`} key={item.id}>
+                        <div className="chat-meta"><b>{item.username}</b><span>{item.time}</span></div>
                         <p>{item.text}</p>
                       </div>
                     ))
@@ -1516,20 +1426,31 @@ const toggleScreenShare = async () => {
                 </div>
 
                 <div className="chat-input-row">
-                  <input
-                    type="text"
-                    placeholder="Type a message..."
-                    value={chatText}
-                    onChange={(e) => setChatText(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") sendChatMessage();
-                    }}
-                  />
+                  <input type="text" placeholder="Type a message..." value={chatText} onChange={(e) => setChatText(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") sendChatMessage(); }} />
                   <button onClick={sendChatMessage}>Send</button>
                 </div>
               </div>
+            </aside>
+          </main>
+
+          <footer className="bottom-control-dock">
+            <div className="call-controls-next">
+              <button className={`control-btn ${!micOn ? "off" : "on"}`} data-tooltip={pushToTalkOn ? "PTT Mode Active" : micOn ? "Mute Mic" : "Turn On Mic"} onClick={toggleMic}>🎙️</button>
+              <button className={`control-btn ${deafenOn ? "off" : ""}`} data-tooltip={deafenOn ? "Undeafen" : "Deafen"} onClick={toggleDeafen}>🎧</button>
+              <button className={`control-btn ${cameraOn ? "on" : ""}`} data-tooltip={cameraOn ? "Stop Camera" : "Camera"} onClick={toggleCamera}>📷</button>
+              <button className={`control-btn ${screenOn ? "on" : ""}`} data-tooltip={screenOn ? "Stop Screen" : "Share Screen"} onClick={toggleScreenShare}>🖥️</button>
+              <button className="control-btn leave-btn" data-tooltip="Leave Call" onClick={leaveRoom}>📞</button>
             </div>
-          </div>
+
+            <div className="ptt-settings ptt-dock-next">
+              <div>
+                <b>Push to Talk</b>
+                <small>{pushToTalkOn ? `Hold "${pttKey.toUpperCase()}" to speak` : "Normal mic toggle mode"}</small>
+              </div>
+              <button className={pushToTalkOn ? "ptt-toggle active" : "ptt-toggle"} onClick={togglePushToTalk}>{pushToTalkOn ? "ON" : "OFF"}</button>
+              <button className="ptt-key" onClick={() => { setIsSettingKey(true); setMessage("Press any key for Push-to-Talk."); }}>Key: {pttKey.toUpperCase()}</button>
+            </div>
+          </footer>
         </div>
       )}
     </div>
