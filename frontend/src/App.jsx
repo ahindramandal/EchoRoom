@@ -1144,99 +1144,133 @@ const toggleScreenShare = async () => {
   };
 
   const AnimalLogo = ({ type = "dragon" }) => {
-    const common = { viewBox: "0 0 120 120", fill: "none", xmlns: "http://www.w3.org/2000/svg" };
+    const common = {
+      viewBox: "0 0 128 128",
+      fill: "none",
+      xmlns: "http://www.w3.org/2000/svg",
+      className: `animal-svg animal-${type}`,
+      "aria-hidden": "true",
+    };
+
+    const mark = (children) => (
+      <svg {...common}>
+        <g className="logo-mark">{children}</g>
+      </svg>
+    );
 
     if (type === "phoenix") {
-      return (
-        <svg {...common} className="animal-svg phoenix-svg">
-          <path className="logo-fill" d="M60 19c5 13 7 26 4 38 16-18 29-23 45-23-9 15-20 28-35 37 12 1 22 4 31 11-17 5-32 4-45-5-13 9-28 10-45 5 9-7 19-10 31-11-15-9-26-22-35-37 16 0 29 5 45 23-3-12-1-25 4-38Z" />
-          <path className="logo-cut" d="M60 35c8 16 7 33 0 50-7-17-8-34 0-50Z" />
-          <path className="logo-fill" d="M60 52l12 17-12 31-12-31 12-17Z" />
-        </svg>
+      return mark(
+        <>
+          <path className="logo-fill logo-soft" d="M64 18C73 35 76 48 72 61C86 43 102 33 121 30C111 49 98 64 80 75C94 76 106 82 116 93C94 95 78 91 64 80C50 91 34 95 12 93C22 82 34 76 48 75C30 64 17 49 7 30C26 33 42 43 56 61C52 48 55 35 64 18Z" />
+          <path className="logo-fill" d="M64 42C73 55 74 68 64 91C54 68 55 55 64 42Z" />
+          <path className="logo-cut" d="M62 33L74 21L70 42L84 48L68 52L62 33Z" />
+          <path className="logo-cut subtle-cut" d="M48 70C38 65 29 57 22 47C37 54 47 63 55 75L48 70Z" />
+          <path className="logo-cut subtle-cut" d="M80 70C90 65 99 57 106 47C91 54 81 63 73 75L80 70Z" />
+        </>
       );
     }
 
     if (type === "pegasus") {
-      return (
-        <svg {...common} className="animal-svg pegasus-svg">
-          <path className="logo-fill" d="M30 68c14-23 38-33 61-23-12 4-19 9-23 17 11 1 19 7 24 18-12-5-24-7-35-5-9 2-18 1-27-7Z" />
-          <path className="logo-fill soft" d="M29 63C19 50 15 37 18 23c12 11 22 24 32 41-8-4-15-4-21-1Z" />
-          <path className="logo-fill soft" d="M46 58C39 42 37 28 42 16c10 14 17 28 19 45-6-4-11-5-15-3Z" />
-          <path className="logo-cut" d="M77 45l12-13-1 18 13 7-17 4-7-16Z" />
-        </svg>
+      return mark(
+        <>
+          <path className="logo-fill logo-soft" d="M23 66C15 50 15 34 25 17C38 36 48 50 57 66C44 59 33 59 23 66Z" />
+          <path className="logo-fill logo-soft" d="M45 57C39 40 41 25 51 9C60 31 66 48 66 67C59 61 52 58 45 57Z" />
+          <path className="logo-fill" d="M26 76C42 46 73 34 104 48C88 52 77 60 72 73C84 72 96 77 106 89C86 86 73 89 60 96C47 102 34 95 26 76Z" />
+          <path className="logo-fill" d="M64 62C77 50 91 49 109 58C96 61 86 67 78 78L64 62Z" />
+          <path className="logo-cut" d="M87 45L106 28L101 52L119 62L94 64L87 45Z" />
+          <path className="logo-cut subtle-cut" d="M48 76C56 84 69 86 82 82C70 93 54 94 42 83L48 76Z" />
+        </>
       );
     }
 
     if (type === "wolf") {
-      return (
-        <svg {...common} className="animal-svg wolf-svg">
-          <path className="logo-fill" d="M21 72c18-31 42-46 78-47-11 8-18 17-22 27 9 3 15 9 22 19-16-5-29-5-40-1-12 5-24 6-38 2Z" />
-          <path className="logo-cut" d="M74 43l14-8-7 15 13 4-17 5-3-16Z" />
-        </svg>
+      return mark(
+        <>
+          <path className="logo-fill" d="M20 82C33 48 58 29 104 25C91 35 84 45 82 57C94 60 103 68 112 82C92 75 76 76 61 84C47 92 34 93 20 82Z" />
+          <path className="logo-fill logo-soft" d="M45 55L57 23L66 53L45 55Z" />
+          <path className="logo-fill logo-soft" d="M70 53L91 21L86 58L70 53Z" />
+          <path className="logo-cut" d="M82 42L102 35L91 51L110 58L86 64L82 42Z" />
+          <path className="logo-cut subtle-cut" d="M41 76C54 82 68 79 80 70C70 88 49 93 31 83L41 76Z" />
+        </>
       );
     }
 
     if (type === "deer") {
-      return (
-        <svg {...common} className="animal-svg deer-svg">
-          <path className="logo-fill" d="M60 34c14 0 25 11 25 25 0 22-25 43-25 43S35 81 35 59c0-14 11-25 25-25Z" />
-          <path className="logo-fill soft" d="M41 42C27 27 28 15 33 8c8 12 18 18 27 22 9-4 19-10 27-22 5 7 6 19-8 34-11-9-27-9-38 0Z" />
-          <path className="logo-cut" d="M48 58h24l-12 25-12-25Z" />
-        </svg>
+      return mark(
+        <>
+          <path className="logo-fill logo-soft" d="M41 44C28 29 27 15 34 6C42 22 53 31 64 36C75 31 86 22 94 6C101 15 100 29 87 44C75 35 53 35 41 44Z" />
+          <path className="logo-fill" d="M64 34C80 34 91 47 88 64C85 84 64 106 64 106S43 84 40 64C37 47 48 34 64 34Z" />
+          <path className="logo-cut" d="M47 59H81L64 91L47 59Z" />
+          <path className="logo-cut subtle-cut" d="M52 41L37 25L56 35L52 41Z" />
+          <path className="logo-cut subtle-cut" d="M76 41L91 25L72 35L76 41Z" />
+        </>
       );
     }
 
     if (type === "lion") {
-      return (
-        <svg {...common} className="animal-svg lion-svg">
-          <path className="logo-fill" d="M60 14l15 15 21-1-5 20 13 17-20 7-8 20-16-12-16 12-8-20-20-7 13-17-5-20 21 1L60 14Z" />
-          <path className="logo-cut" d="M42 55c11-18 31-18 42-2-12-3-25 2-35 15l-7-13Z" />
-        </svg>
+      return mark(
+        <>
+          <path className="logo-fill logo-soft" d="M64 10L79 27L103 25L98 48L115 65L92 74L82 99L64 84L46 99L36 74L13 65L30 48L25 25L49 27L64 10Z" />
+          <path className="logo-fill" d="M38 64C47 42 78 36 95 55C85 54 75 58 66 68C55 80 44 81 30 74C34 72 36 68 38 64Z" />
+          <path className="logo-cut" d="M72 43L96 35L84 55L105 64L77 66L72 43Z" />
+          <path className="logo-cut subtle-cut" d="M41 75C55 85 74 82 88 68C81 91 52 101 31 84L41 75Z" />
+        </>
       );
     }
 
     if (type === "raven") {
-      return (
-        <svg {...common} className="animal-svg raven-svg">
-          <path className="logo-fill" d="M18 65c24-28 54-38 87-31-17 8-28 19-34 34 15-2 27 1 36 9-25 4-47 2-66-7-10-5-18-6-23-5Z" />
-          <path className="logo-fill soft" d="M44 71l-9 31 25-24 25 24-9-31H44Z" />
-        </svg>
+      return mark(
+        <>
+          <path className="logo-fill" d="M13 74C35 43 67 29 115 31C93 40 80 53 74 72C89 70 103 74 115 84C82 91 55 87 34 75C25 70 18 70 13 74Z" />
+          <path className="logo-fill logo-soft" d="M43 76L35 111L64 87L93 111L85 76H43Z" />
+          <path className="logo-cut" d="M78 39L104 28L91 48L113 56L85 61L78 39Z" />
+          <path className="logo-cut subtle-cut" d="M40 72C53 76 66 76 80 70C63 87 44 90 23 78L40 72Z" />
+        </>
       );
     }
 
     if (type === "shark") {
-      return (
-        <svg {...common} className="animal-svg shark-svg">
-          <path className="logo-fill" d="M15 66c28-30 62-39 96-27-18 2-31 8-39 19 14 0 26 4 36 13-31 8-60 7-93-5Z" />
-          <path className="logo-cut" d="M82 47l21-12-8 24-13-12Z" />
-        </svg>
+      return mark(
+        <>
+          <path className="logo-fill" d="M10 72C39 38 76 29 120 42C96 46 82 55 73 69C88 69 103 74 116 85C78 96 44 91 10 72Z" />
+          <path className="logo-fill logo-soft" d="M54 58L68 24L80 62L54 58Z" />
+          <path className="logo-cut" d="M89 43L119 32L104 57L89 43Z" />
+          <path className="logo-cut subtle-cut" d="M40 75C57 80 76 79 96 72C76 91 49 93 22 78L40 75Z" />
+        </>
       );
     }
 
     if (type === "crocodile") {
-      return (
-        <svg {...common} className="animal-svg crocodile-svg">
-          <path className="logo-fill" d="M15 70c20-31 54-42 94-30-17 4-30 11-39 20 16-2 30 1 41 10-31 14-63 14-96 0Z" />
-          <path className="logo-cut" d="M52 55l8-10 8 10 8-10 8 10-16 11-16-11Z" />
-        </svg>
+      return mark(
+        <>
+          <path className="logo-fill" d="M9 72C32 38 70 28 119 43C96 48 79 56 68 68C86 65 104 69 119 82C80 99 43 94 9 72Z" />
+          <path className="logo-fill logo-soft" d="M42 52L50 35L59 52L68 35L77 52L86 35L96 56L70 70L42 52Z" />
+          <path className="logo-cut" d="M76 50L111 42L91 60L116 70L82 69L76 50Z" />
+          <path className="logo-cut subtle-cut" d="M39 70L50 59L60 70L70 59L81 70C67 79 52 79 39 70Z" />
+        </>
       );
     }
 
     if (type === "scorpion") {
-      return (
-        <svg {...common} className="animal-svg scorpion-svg">
-          <path className="logo-fill" d="M57 35c18 0 31 13 31 31 0 14-8 25-21 29 14-20 9-43-10-43-17 0-23 18-13 34C28 80 22 65 30 51c6-10 16-16 27-16Z" />
-          <path className="logo-fill soft" d="M75 25c19-10 33 1 28 18-5-10-16-12-28-4V25Z" />
-        </svg>
+      return mark(
+        <>
+          <path className="logo-fill" d="M58 37C78 37 91 52 91 70C91 84 82 96 68 101C82 82 76 58 59 58C43 58 36 75 45 93C27 85 21 67 31 52C37 43 46 37 58 37Z" />
+          <path className="logo-fill logo-soft" d="M78 27C101 13 118 27 109 48C103 36 92 34 80 43L78 27Z" />
+          <path className="logo-fill logo-soft" d="M36 56L13 44L24 70L36 56Z" />
+          <path className="logo-fill logo-soft" d="M84 56L115 52L99 75L84 56Z" />
+          <path className="logo-cut" d="M70 37L93 23L85 47L70 37Z" />
+        </>
       );
     }
 
-    return (
-      <svg {...common} className="animal-svg dragon-svg">
-        <path className="logo-fill" d="M21 72c12-28 37-48 72-58-7 11-9 21-7 31 9 2 18 7 27 16-14-1-25 2-34 8-17 12-36 14-58 3Z" />
-        <path className="logo-fill soft" d="M40 64c-6 23 7 37 34 41-20 6-40 0-51-14-9-12-7-24 17-27Z" />
-        <path className="logo-cut" d="M78 33l17-12-5 21 17 8-23 2-6-19Z" />
-      </svg>
+    return mark(
+      <>
+        <path className="logo-fill logo-soft" d="M38 62C34 42 42 25 62 11C59 29 64 41 77 50C65 49 52 53 38 62Z" />
+        <path className="logo-fill" d="M17 78C31 43 61 22 109 15C97 29 92 42 95 55C106 58 116 65 124 78C105 75 90 79 77 89C59 102 39 99 17 78Z" />
+        <path className="logo-fill logo-soft" d="M39 75C33 99 50 113 82 113C59 123 35 116 23 99C16 89 21 80 39 75Z" />
+        <path className="logo-cut" d="M82 33L110 15L101 43L122 54L92 57L82 33Z" />
+        <path className="logo-cut subtle-cut" d="M45 78C59 86 76 83 91 70C79 93 52 101 29 86L45 78Z" />
+      </>
     );
   };
 
