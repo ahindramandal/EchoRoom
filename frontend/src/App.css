@@ -5599,3 +5599,97 @@ body {
 .room-pulse .animal-logo-disc {
   box-shadow: none !important;
 }
+/* ===== PREMIUM ECHOROOM BACKGROUND FX OVERRIDE ===== */
+
+.app::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 28%, rgba(0, 180, 255, 0.22), transparent 32%),
+    radial-gradient(circle at 88% 34%, rgba(255, 105, 25, 0.24), transparent 34%),
+    radial-gradient(circle at 50% 80%, rgba(120, 50, 255, 0.12), transparent 45%);
+  filter: blur(28px);
+  animation: premiumAura 12s ease-in-out infinite alternate;
+}
+
+.app::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(circle, rgba(70, 190, 255, 0.55) 0 1px, transparent 2px),
+    radial-gradient(circle, rgba(255, 120, 35, 0.55) 0 1px, transparent 2px),
+    linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.025) 48%, transparent 62%);
+  background-size:
+    180px 180px,
+    220px 220px,
+    240% 240%;
+  background-position:
+    8% 12%,
+    92% 70%,
+    0% 0%;
+  animation:
+    premiumParticles 20s linear infinite,
+    premiumRays 14s linear infinite;
+}
+
+.sky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(0, 145, 255, 0.16), transparent 32%),
+    linear-gradient(270deg, rgba(255, 85, 0, 0.18), transparent 32%);
+  filter: blur(42px);
+  animation: elementalFlow 9s ease-in-out infinite alternate;
+}
+
+@keyframes premiumAura {
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(1.08) translateY(-14px);
+    opacity: 1;
+  }
+}
+
+@keyframes premiumParticles {
+  0% {
+    background-position: 8% 12%, 92% 70%, 0% 0%;
+  }
+  100% {
+    background-position: 18% 34%, 82% 48%, 100% 100%;
+  }
+}
+
+@keyframes premiumRays {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.18);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@keyframes elementalFlow {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 0.65;
+  }
+  100% {
+    transform: translateX(10px) scale(1.05);
+    opacity: 0.95;
+  }
+}
