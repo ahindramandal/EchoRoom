@@ -5028,44 +5028,89 @@ body {
 }
 
 
-/* ===== recognizable mythical SVG logo polish ===== */
+/* ===== LOGO FIX v2: recognizable filled esports badges ===== */
 .logo-fill {
-  fill: currentColor;
+  fill: currentColor !important;
 }
-
 .logo-soft {
-  opacity: 0.46;
+  opacity: 0.48 !important;
 }
-
 .logo-cut {
-  fill: #02040d;
-  opacity: 0.98;
+  fill: #02040d !important;
+  opacity: 0.96 !important;
 }
-
 .subtle-cut {
-  opacity: 0.5;
+  opacity: 0.5 !important;
 }
-
-.animal-svg .logo-mark {
-  transform-origin: 50% 50%;
-}
-
-.animal-circle .animal-svg {
-  width: 86%;
-  height: 86%;
-  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 45%, transparent));
-}
-
-.brand-pegasus .animal-svg {
-  filter: none;
-}
-
-.bg-creature {
-  opacity: 0.2;
-}
-
-.bg-creature .animal-svg {
+.animal-svg {
   width: 100%;
   height: 100%;
-  filter: none;
+  overflow: visible;
+  display: block;
+}
+.animal-svg .logo-mark {
+  transform-origin: 64px 64px;
+}
+.animal-circle {
+  width: 112px !important;
+  height: 112px !important;
+  border-radius: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+  background:
+    radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 56%),
+    linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.014)) !important;
+  border: 1px solid color-mix(in srgb, var(--accent) 80%, transparent) !important;
+}
+.animal-circle .animal-svg {
+  width: 82% !important;
+  height: 82% !important;
+  color: var(--accent);
+}
+.member-tile.speaking .animal-circle,
+.animal-circle.talking {
+  animation: avatarTalkPremium 0.9s ease-in-out infinite !important;
+  box-shadow:
+    0 0 0 8px color-mix(in srgb, var(--accent) 12%, transparent),
+    0 0 38px color-mix(in srgb, var(--accent) 45%, transparent) !important;
+}
+.member-tile.speaking .animal-svg .logo-mark {
+  animation: logoFloatTalk 0.9s ease-in-out infinite !important;
+}
+.brand-pegasus .animal-svg {
+  color: #ffffff !important;
+  width: 58px !important;
+  height: 58px !important;
+}
+.brand-pegasus.small .animal-svg {
+  width: 40px !important;
+  height: 40px !important;
+}
+.bg-creature {
+  opacity: 0.24 !important;
+  filter: none !important;
+}
+.bg-creature .animal-svg {
+  width: 100% !important;
+  height: 100% !important;
+  transform: scale(1.02) !important;
+}
+.bg-dragon {
+  left: -8vw !important;
+  top: 5vh !important;
+  color: #0ea5ff !important;
+}
+.bg-phoenix {
+  right: -7vw !important;
+  top: 5vh !important;
+  color: #ff6a00 !important;
+}
+@keyframes logoFloatTalk {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-4px) scale(1.05); }
+}
+@keyframes avatarTalkPremium {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-3px) scale(1.035); }
 }

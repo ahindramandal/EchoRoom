@@ -1124,15 +1124,15 @@ const toggleScreenShare = async () => {
   const responsiveVideoStyles = ``;
 
   const animalTypes = [
-    "pegasus",
-    "phoenix",
     "dragon",
+    "phoenix",
+    "pegasus",
     "wolf",
-    "deer",
+    "leviathan",
     "lion",
     "raven",
+    "deer",
     "shark",
-    "crocodile",
     "scorpion",
   ];
 
@@ -1158,107 +1158,132 @@ const toggleScreenShare = async () => {
       </svg>
     );
 
-    const iconMap = {
-      dragon: (
+    if (type === "dragon") {
+      return mark(
         <>
-          <path className="logo-fill logo-soft" d="M18 84C24 54 49 24 88 16C78 25 74 35 77 44C92 43 107 50 118 63C100 60 84 64 72 76C57 91 36 95 18 84Z" />
-          <path className="logo-fill" d="M30 76C37 47 61 30 95 27C88 35 86 44 91 51C102 50 112 55 119 65C102 65 90 70 80 82C67 98 44 99 30 76Z" />
-          <path className="logo-fill" d="M54 47L64 17L72 45L54 47Z" />
-          <path className="logo-fill" d="M76 43L101 16L95 53L76 43Z" />
-          <path className="logo-cut" d="M89 35L116 24L102 45L124 55L94 59L89 35Z" />
-          <path className="logo-cut" d="M76 56L91 54L79 64L76 56Z" />
-          <path className="logo-cut subtle-cut" d="M39 78C55 86 74 80 89 65C80 91 52 101 27 84L39 78Z" />
-          <circle className="logo-cut" cx="92" cy="43" r="2.8" />
+          <path className="logo-fill logo-soft" d="M22 78C28 48 49 27 77 17C68 30 69 42 82 49C69 47 54 52 42 65C34 73 28 78 22 78Z" />
+          <path className="logo-fill" d="M19 79C39 45 72 28 111 32C100 39 94 48 94 58C105 61 114 69 121 82C104 78 88 82 75 92C55 106 35 99 19 79Z" />
+          <path className="logo-fill" d="M47 61C51 44 64 32 86 20L79 44L99 36L87 58L47 61Z" />
+          <path className="logo-fill logo-soft" d="M36 89C47 98 62 100 76 94C61 113 34 111 18 91C24 94 30 94 36 89Z" />
+          <path className="logo-cut" d="M83 39L111 27L100 50L122 61L92 64L83 39Z" />
+          <path className="logo-cut" d="M77 55L89 54L83 61L75 61L77 55Z" />
+          <path className="logo-cut subtle-cut" d="M44 76C60 86 79 82 94 70C83 95 52 103 27 84L44 76Z" />
+          <path className="logo-cut subtle-cut" d="M55 55C65 47 75 43 88 42C75 52 66 59 59 70L55 55Z" />
         </>
-      ),
-      phoenix: (
-        <>
-          <path className="logo-fill logo-soft" d="M64 17C74 33 78 47 74 62C87 42 102 29 121 25C113 50 99 68 80 80C96 80 109 87 119 99C96 101 79 96 64 84C49 96 32 101 9 99C19 87 32 80 48 80C29 68 15 50 7 25C26 29 41 42 54 62C50 47 54 33 64 17Z" />
-          <path className="logo-fill" d="M64 32C75 46 75 65 64 103C53 65 53 46 64 32Z" />
-          <path className="logo-fill" d="M56 55C43 41 30 34 12 31C22 55 37 70 57 78L56 55Z" />
-          <path className="logo-fill" d="M72 55C85 41 98 34 116 31C106 55 91 70 71 78L72 55Z" />
-          <path className="logo-cut" d="M63 28L78 12L73 39L91 47L69 51L63 28Z" />
-          <path className="logo-cut subtle-cut" d="M42 69C33 64 25 56 19 47C34 53 45 62 54 76L42 69Z" />
-          <path className="logo-cut subtle-cut" d="M86 69C95 64 103 56 109 47C94 53 83 62 74 76L86 69Z" />
-        </>
-      ),
-      pegasus: (
-        <>
-          <path className="logo-fill logo-soft" d="M17 69C12 49 18 31 34 13C43 36 51 52 63 68C47 58 32 59 17 69Z" />
-          <path className="logo-fill logo-soft" d="M39 59C36 40 42 23 56 7C63 34 68 52 68 70C60 63 50 59 39 59Z" />
-          <path className="logo-fill" d="M29 78C42 49 66 34 101 41C88 48 80 58 77 72C90 70 101 75 111 89C91 87 76 91 64 101C50 110 35 101 29 78Z" />
-          <path className="logo-fill" d="M64 60C78 45 95 45 115 57C101 60 89 69 80 83L64 60Z" />
-          <path className="logo-fill" d="M75 45L92 20L91 48L75 45Z" />
-          <path className="logo-cut" d="M91 43L113 27L106 51L123 62L98 64L91 43Z" />
-          <path className="logo-cut" d="M82 56L96 55L84 64L82 56Z" />
-          <path className="logo-cut subtle-cut" d="M48 78C58 87 73 88 87 81C73 96 53 99 38 86L48 78Z" />
-        </>
-      ),
-      wolf: (
-        <>
-          <path className="logo-fill logo-soft" d="M25 78C34 48 58 25 102 19C91 31 85 43 84 57C96 60 106 69 114 83C94 75 78 78 64 88C49 98 35 96 25 78Z" />
-          <path className="logo-fill" d="M30 80C44 50 67 36 101 34C90 42 84 52 83 64C94 66 103 72 111 84C92 82 77 86 64 96C49 106 36 98 30 80Z" />
-          <path className="logo-fill" d="M45 53L58 18L68 54L45 53Z" />
-          <path className="logo-fill" d="M70 53L94 18L88 60L70 53Z" />
-          <path className="logo-cut" d="M84 42L107 33L95 53L115 60L89 65L84 42Z" />
-          <path className="logo-cut subtle-cut" d="M43 79C57 86 73 82 88 69C78 93 52 103 30 86L43 79Z" />
-        </>
-      ),
-      deer: (
-        <>
-          <path className="logo-fill logo-soft" d="M36 42C25 26 27 12 37 5C43 23 54 34 64 39C74 34 85 23 91 5C101 12 103 26 92 42C78 31 50 31 36 42Z" />
-          <path className="logo-fill" d="M64 34C80 34 91 47 88 65C85 85 64 107 64 107S43 85 40 65C37 47 48 34 64 34Z" />
-          <path className="logo-cut" d="M48 58H80L64 93L48 58Z" />
-          <path className="logo-cut subtle-cut" d="M52 41L36 25L56 35L52 41Z" />
-          <path className="logo-cut subtle-cut" d="M76 41L92 25L72 35L76 41Z" />
-        </>
-      ),
-      lion: (
-        <>
-          <path className="logo-fill logo-soft" d="M64 10L80 27L105 25L99 49L116 66L92 75L82 101L64 85L46 101L36 75L12 66L29 49L23 25L48 27L64 10Z" />
-          <path className="logo-fill" d="M38 64C49 40 80 36 98 56C86 55 76 60 67 70C55 82 43 82 29 74C34 72 36 68 38 64Z" />
-          <path className="logo-cut" d="M73 43L98 34L85 56L107 64L78 67L73 43Z" />
-          <path className="logo-cut subtle-cut" d="M41 75C56 86 76 82 90 68C82 93 52 102 31 84L41 75Z" />
-        </>
-      ),
-      raven: (
-        <>
-          <path className="logo-fill" d="M12 74C35 43 68 30 116 31C95 40 81 54 75 73C91 70 104 75 116 85C83 93 55 88 33 76C24 71 17 71 12 74Z" />
-          <path className="logo-fill logo-soft" d="M43 76L35 112L64 87L93 112L85 76H43Z" />
-          <path className="logo-cut" d="M79 39L106 28L92 49L115 56L86 62L79 39Z" />
-          <path className="logo-cut subtle-cut" d="M39 72C53 77 67 76 81 70C64 88 43 90 23 78L39 72Z" />
-        </>
-      ),
-      shark: (
-        <>
-          <path className="logo-fill" d="M10 72C40 38 77 29 121 42C97 47 82 56 74 70C89 69 104 75 117 85C79 97 44 91 10 72Z" />
-          <path className="logo-fill logo-soft" d="M54 58L68 24L80 62L54 58Z" />
-          <path className="logo-cut" d="M90 43L120 32L105 57L90 43Z" />
-          <path className="logo-cut subtle-cut" d="M40 75C58 80 77 79 97 72C76 91 49 94 22 78L40 75Z" />
-        </>
-      ),
-      crocodile: (
-        <>
-          <path className="logo-fill" d="M9 72C33 38 71 28 120 43C97 48 80 56 69 69C87 65 105 69 120 82C81 100 43 95 9 72Z" />
-          <path className="logo-fill logo-soft" d="M42 52L50 35L59 52L68 35L77 52L86 35L97 56L70 70L42 52Z" />
-          <path className="logo-cut" d="M77 50L112 42L92 60L117 70L83 69L77 50Z" />
-          <path className="logo-cut subtle-cut" d="M39 70L50 59L60 70L70 59L81 70C67 79 52 79 39 70Z" />
-        </>
-      ),
-      scorpion: (
-        <>
-          <path className="logo-fill" d="M58 37C78 37 91 52 91 70C91 84 82 96 68 101C82 82 76 58 59 58C43 58 36 75 45 93C27 85 21 67 31 52C37 43 46 37 58 37Z" />
-          <path className="logo-fill logo-soft" d="M78 27C101 13 118 27 109 48C103 36 92 34 80 43L78 27Z" />
-          <path className="logo-fill logo-soft" d="M36 56L13 44L24 70L36 56Z" />
-          <path className="logo-fill logo-soft" d="M84 56L115 52L99 75L84 56Z" />
-          <path className="logo-cut" d="M70 37L93 23L85 47L70 37Z" />
-        </>
-      ),
-    };
+      );
+    }
 
-    return mark(iconMap[type] || iconMap.dragon);
+    if (type === "phoenix") {
+      return mark(
+        <>
+          <path className="logo-fill logo-soft" d="M64 16C77 38 80 55 72 72C88 48 105 35 124 29C115 55 101 75 78 88C95 90 109 97 121 109C97 108 78 101 64 88C50 101 31 108 7 109C19 97 33 90 50 88C27 75 13 55 4 29C23 35 40 48 56 72C48 55 51 38 64 16Z" />
+          <path className="logo-fill" d="M64 31C74 47 75 68 64 101C53 68 54 47 64 31Z" />
+          <path className="logo-fill" d="M38 72C24 61 15 47 10 35C31 45 48 59 58 80L38 72Z" />
+          <path className="logo-fill" d="M90 72C104 61 113 47 118 35C97 45 80 59 70 80L90 72Z" />
+          <path className="logo-cut" d="M63 26L79 15L73 40L92 47L70 53L63 26Z" />
+          <path className="logo-cut subtle-cut" d="M48 82C55 89 60 94 64 105C68 94 73 89 80 82C72 87 56 87 48 82Z" />
+          <path className="logo-cut subtle-cut" d="M34 64C26 55 19 45 15 37C29 45 42 55 54 72L34 64Z" />
+          <path className="logo-cut subtle-cut" d="M94 64C102 55 109 45 113 37C99 45 86 55 74 72L94 64Z" />
+        </>
+      );
+    }
+
+    if (type === "pegasus") {
+      return mark(
+        <>
+          <path className="logo-fill logo-soft" d="M18 72C12 48 19 27 39 10C42 35 51 52 68 66C48 59 31 62 18 72Z" />
+          <path className="logo-fill logo-soft" d="M34 58C38 35 49 19 67 6C65 36 72 55 91 71C68 60 50 57 34 58Z" />
+          <path className="logo-fill" d="M23 84C39 47 72 31 112 42C96 49 87 59 83 74C95 75 105 82 114 94C92 91 75 95 60 103C43 112 30 104 23 84Z" />
+          <path className="logo-fill" d="M60 62C72 49 89 47 111 58C96 62 85 70 78 83L60 62Z" />
+          <path className="logo-fill logo-soft" d="M54 59L59 25L68 57L54 59Z" />
+          <path className="logo-cut" d="M88 45L112 28L104 55L124 66L95 67L88 45Z" />
+          <path className="logo-cut" d="M85 59L96 58L90 65L82 65L85 59Z" />
+          <path className="logo-cut subtle-cut" d="M45 82C56 91 72 91 89 82C77 102 50 108 32 91L45 82Z" />
+          <path className="logo-cut subtle-cut" d="M35 58C31 45 31 33 38 21C44 39 53 51 65 62L35 58Z" />
+        </>
+      );
+    }
+
+    if (type === "wolf") {
+      return mark(
+        <>
+          <path className="logo-fill logo-soft" d="M33 48L42 18L57 44L33 48Z" />
+          <path className="logo-fill logo-soft" d="M72 43L96 16L90 52L72 43Z" />
+          <path className="logo-fill" d="M18 83C31 54 57 32 106 26C94 37 88 47 88 58C101 62 110 71 116 84C94 78 78 82 64 92C47 104 32 99 18 83Z" />
+          <path className="logo-cut" d="M79 45L104 35L91 55L113 63L84 67L79 45Z" />
+          <path className="logo-cut" d="M70 60L82 59L76 66L68 66L70 60Z" />
+          <path className="logo-cut subtle-cut" d="M40 80C55 89 74 86 90 72C80 97 51 103 27 87L40 80Z" />
+        </>
+      );
+    }
+
+    if (type === "leviathan" || type === "shark" || type === "crocodile") {
+      return mark(
+        <>
+          <path className="logo-fill logo-soft" d="M26 79C29 47 52 25 91 18C82 31 82 45 95 55C77 50 56 57 39 75L26 79Z" />
+          <path className="logo-fill" d="M12 78C35 42 70 28 120 43C98 49 82 59 73 74C89 72 104 78 117 90C80 101 45 96 12 78Z" />
+          <path className="logo-fill logo-soft" d="M38 79C48 98 71 102 96 92C76 118 38 113 19 90C26 91 32 88 38 79Z" />
+          <path className="logo-cut" d="M84 43L116 32L101 56L124 68L88 68L84 43Z" />
+          <path className="logo-cut" d="M78 58L91 57L84 65L75 64L78 58Z" />
+          <path className="logo-cut subtle-cut" d="M40 78C57 87 82 84 102 72C82 97 50 101 24 84L40 78Z" />
+        </>
+      );
+    }
+
+    if (type === "lion") {
+      return mark(
+        <>
+          <path className="logo-fill logo-soft" d="M63 12L79 28L103 24L97 48L116 65L92 74L82 100L64 85L45 101L36 74L12 65L31 48L25 24L49 28L63 12Z" />
+          <path className="logo-fill" d="M36 68C45 42 78 34 99 54C87 55 77 62 68 73C57 88 43 90 26 78C31 76 34 72 36 68Z" />
+          <path className="logo-cut" d="M72 44L100 34L84 57L108 66L76 68L72 44Z" />
+          <path className="logo-cut subtle-cut" d="M40 80C56 90 77 86 92 69C84 96 52 105 28 88L40 80Z" />
+        </>
+      );
+    }
+
+    if (type === "raven") {
+      return mark(
+        <>
+          <path className="logo-fill" d="M12 73C35 42 68 27 116 31C95 40 82 53 76 70C91 69 104 75 116 86C83 93 55 88 34 76C25 71 18 70 12 73Z" />
+          <path className="logo-fill logo-soft" d="M44 77L35 113L64 88L94 113L85 77H44Z" />
+          <path className="logo-cut" d="M80 40L107 28L93 50L116 59L85 64L80 40Z" />
+          <path className="logo-cut subtle-cut" d="M39 73C55 81 73 79 91 68C76 92 48 96 22 80L39 73Z" />
+        </>
+      );
+    }
+
+    if (type === "deer") {
+      return mark(
+        <>
+          <path className="logo-fill logo-soft" d="M39 42C26 27 26 14 34 6C42 24 52 32 64 37C76 32 86 24 94 6C102 14 102 27 89 42C77 35 51 35 39 42Z" />
+          <path className="logo-fill" d="M64 35C82 35 94 49 90 68C86 88 64 108 64 108S42 88 38 68C34 49 46 35 64 35Z" />
+          <path className="logo-cut" d="M47 60H82L64 92L47 60Z" />
+          <path className="logo-cut subtle-cut" d="M51 42L35 25L56 35L51 42Z" />
+          <path className="logo-cut subtle-cut" d="M77 42L93 25L72 35L77 42Z" />
+        </>
+      );
+    }
+
+    if (type === "scorpion") {
+      return mark(
+        <>
+          <path className="logo-fill" d="M58 36C79 36 93 52 92 70C92 85 82 97 68 102C82 81 76 58 59 58C43 58 36 75 45 94C27 86 20 67 31 51C37 42 47 36 58 36Z" />
+          <path className="logo-fill logo-soft" d="M78 27C101 12 119 27 110 49C103 36 92 34 80 43L78 27Z" />
+          <path className="logo-fill logo-soft" d="M36 56L13 44L24 71L36 56Z" />
+          <path className="logo-fill logo-soft" d="M84 56L116 52L99 76L84 56Z" />
+          <path className="logo-cut" d="M70 37L94 23L85 48L70 37Z" />
+        </>
+      );
+    }
+
+    return mark(
+      <>
+        <path className="logo-fill logo-soft" d="M38 62C34 42 42 25 62 11C59 29 64 41 77 50C65 49 52 53 38 62Z" />
+        <path className="logo-fill" d="M17 78C31 43 61 22 109 15C97 29 92 42 95 55C106 58 116 65 124 78C105 75 90 79 77 89C59 102 39 99 17 78Z" />
+        <path className="logo-cut" d="M82 33L110 15L101 43L122 54L92 57L82 33Z" />
+      </>
+    );
   };
-
   const renderStatusIcons = (member) => (
     <div className="tile-status-icons">
       <span className={member.micOn ? "status-dot mic-on" : "status-dot mic-off"} title={member.micOn ? "Mic on" : "Muted"}>
