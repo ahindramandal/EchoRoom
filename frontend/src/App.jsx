@@ -1144,154 +1144,34 @@ const toggleScreenShare = async () => {
   };
 
   const AnimalLogo = ({ type = "dragon" }) => {
-    const common = {
-      viewBox: "0 0 128 128",
-      fill: "none",
-      xmlns: "http://www.w3.org/2000/svg",
-      className: `animal-svg animal-${type}`,
-      "aria-hidden": "true",
+    // These are real SVG icon masks from Game-Icons/Iconify.
+    // They look like esports-style creature badges, not abstract CSS blobs.
+    const iconMap = {
+      dragon: "dragon-head",
+      phoenix: "phoenix-emblem",
+      pegasus: "pegasus",
+      wolf: "wolf-head",
+      deer: "deer-head",
+      lion: "lion",
+      raven: "raven",
+      shark: "shark-jaws",
+      crocodile: "croc-jaws",
+      scorpion: "scorpion",
     };
 
-    const Svg = ({ children }) => (
-      <svg {...common}>
-        <g className="logo-mark">{children}</g>
-      </svg>
-    );
-
-    const CutEye = ({ x = 88, y = 50 }) => <circle className="logo-cut logo-eye" cx={x} cy={y} r="4" />;
-
-    if (type === "dragon") {
-      return (
-        <Svg>
-          <path className="logo-fill logo-back" d="M18 83C28 54 52 33 85 22C80 33 78 43 82 52C93 49 106 53 119 64C102 66 91 72 84 83C71 105 42 106 18 83Z" />
-          <path className="logo-fill" d="M28 78C37 51 63 29 107 21L96 43L119 48L95 59L111 79L84 72L74 99C65 83 47 80 28 78Z" />
-          <path className="logo-fill logo-soft" d="M41 57L31 29L58 45L41 57Z" />
-          <path className="logo-fill logo-soft" d="M66 42L77 11L88 45L66 42Z" />
-          <path className="logo-cut" d="M84 44L109 39L94 54L116 60L87 63L84 44Z" />
-          <path className="logo-cut subtle-cut" d="M45 78C56 84 70 82 84 72C73 92 50 98 30 84L45 78Z" />
-          <CutEye x={91} y={48} />
-        </Svg>
-      );
-    }
-
-    if (type === "phoenix") {
-      return (
-        <Svg>
-          <path className="logo-fill logo-soft" d="M63 14C76 33 77 49 70 66C88 43 104 32 123 30C114 56 98 73 78 81C95 82 108 89 118 101C92 101 74 95 64 82C54 95 36 101 10 101C20 89 33 82 50 81C30 73 14 56 5 30C24 32 40 43 58 66C51 49 52 33 63 14Z" />
-          <path className="logo-fill" d="M64 35C76 51 76 68 64 101C52 68 52 51 64 35Z" />
-          <path className="logo-fill logo-soft" d="M45 73C33 66 24 56 17 43C34 50 47 61 58 78L45 73Z" />
-          <path className="logo-fill logo-soft" d="M83 73C95 66 104 56 111 43C94 50 81 61 70 78L83 73Z" />
-          <path className="logo-cut" d="M64 28L78 15L74 38L91 47L70 50L64 28Z" />
-          <path className="logo-cut subtle-cut" d="M56 78L64 101L72 78C68 82 60 82 56 78Z" />
-          <CutEye x={72} y={39} />
-        </Svg>
-      );
-    }
-
-    if (type === "pegasus") {
-      return (
-        <Svg>
-          <path className="logo-fill logo-soft" d="M26 73C15 49 18 28 33 10C44 34 53 51 63 70C50 61 38 62 26 73Z" />
-          <path className="logo-fill logo-soft" d="M48 61C43 40 48 22 61 8C68 32 73 51 71 70C65 64 57 61 48 61Z" />
-          <path className="logo-fill" d="M27 78C43 46 74 33 108 47C94 52 85 61 82 73C94 74 104 80 113 92C92 89 75 92 61 101C47 108 34 99 27 78Z" />
-          <path className="logo-fill" d="M67 59C81 48 96 48 113 58C98 62 88 68 80 81L67 59Z" />
-          <path className="logo-cut" d="M88 43L110 26L104 51L123 62L96 64L88 43Z" />
-          <path className="logo-cut subtle-cut" d="M48 78C58 88 73 89 86 83C74 99 54 101 39 87L48 78Z" />
-          <CutEye x={94} y={52} />
-        </Svg>
-      );
-    }
-
-    if (type === "wolf") {
-      return (
-        <Svg>
-          <path className="logo-fill logo-soft" d="M23 42L44 13L58 48L42 55L23 42Z" />
-          <path className="logo-fill logo-soft" d="M105 42L84 13L70 48L86 55L105 42Z" />
-          <path className="logo-fill" d="M64 31C85 31 101 49 98 69C95 90 64 111 64 111S33 90 30 69C27 49 43 31 64 31Z" />
-          <path className="logo-cut" d="M44 61L59 67L51 76L44 61Z" />
-          <path className="logo-cut" d="M84 61L69 67L77 76L84 61Z" />
-          <path className="logo-cut subtle-cut" d="M51 86L64 99L77 86L64 90L51 86Z" />
-        </Svg>
-      );
-    }
-
-    if (type === "deer") {
-      return (
-        <Svg>
-          <path className="logo-fill logo-soft" d="M35 37C22 26 21 12 29 5C35 21 45 31 56 37L47 45L35 37Z" />
-          <path className="logo-fill logo-soft" d="M93 37C106 26 107 12 99 5C93 21 83 31 72 37L81 45L93 37Z" />
-          <path className="logo-fill" d="M64 34C82 34 93 48 89 66C86 86 64 108 64 108S42 86 39 66C35 48 46 34 64 34Z" />
-          <path className="logo-cut" d="M48 59H80L64 94L48 59Z" />
-          <path className="logo-cut subtle-cut" d="M48 43L34 27L55 36L48 43Z" />
-          <path className="logo-cut subtle-cut" d="M80 43L94 27L73 36L80 43Z" />
-        </Svg>
-      );
-    }
-
-    if (type === "lion") {
-      return (
-        <Svg>
-          <path className="logo-fill logo-soft" d="M64 9L78 28L102 22L101 47L121 62L98 76L91 103L64 91L37 103L30 76L7 62L27 47L26 22L50 28L64 9Z" />
-          <path className="logo-fill" d="M64 34C83 34 96 48 93 67C90 88 64 104 64 104S38 88 35 67C32 48 45 34 64 34Z" />
-          <path className="logo-cut" d="M49 61L60 66L53 75L49 61Z" />
-          <path className="logo-cut" d="M79 61L68 66L75 75L79 61Z" />
-          <path className="logo-cut subtle-cut" d="M52 84C60 89 68 89 76 84C73 95 55 95 52 84Z" />
-        </Svg>
-      );
-    }
-
-    if (type === "raven") {
-      return (
-        <Svg>
-          <path className="logo-fill" d="M10 75C36 39 71 27 121 31C100 40 85 53 78 72C92 70 106 75 119 86C82 95 51 91 27 76C20 72 14 72 10 75Z" />
-          <path className="logo-fill logo-soft" d="M44 75L36 114L64 88L92 114L84 75H44Z" />
-          <path className="logo-cut" d="M82 38L109 27L94 49L121 58L86 61L82 38Z" />
-          <path className="logo-cut subtle-cut" d="M42 72C58 78 76 76 93 67C75 90 47 95 22 80L42 72Z" />
-        </Svg>
-      );
-    }
-
-    if (type === "shark") {
-      return (
-        <Svg>
-          <path className="logo-fill" d="M8 73C41 36 83 27 122 44C101 47 84 56 74 70C89 70 105 75 120 87C80 99 43 92 8 73Z" />
-          <path className="logo-fill logo-soft" d="M54 59L68 23L81 63L54 59Z" />
-          <path className="logo-cut" d="M89 43L121 33L105 57L89 43Z" />
-          <path className="logo-cut subtle-cut" d="M41 75C60 82 81 80 101 71C79 94 49 96 21 80L41 75Z" />
-        </Svg>
-      );
-    }
-
-    if (type === "crocodile") {
-      return (
-        <Svg>
-          <path className="logo-fill" d="M8 72C34 38 75 28 121 43C99 49 82 57 70 69C88 66 106 70 121 84C82 99 43 94 8 72Z" />
-          <path className="logo-fill logo-soft" d="M39 51L49 33L59 51L68 34L78 51L88 34L99 57L70 70L39 51Z" />
-          <path className="logo-cut" d="M77 50L114 43L92 61L121 71L83 70L77 50Z" />
-          <path className="logo-cut subtle-cut" d="M38 70L50 59L60 70L70 59L83 70C68 80 52 80 38 70Z" />
-        </Svg>
-      );
-    }
-
-    if (type === "scorpion") {
-      return (
-        <Svg>
-          <path className="logo-fill" d="M57 36C78 36 92 52 92 70C92 85 82 98 67 103C82 82 76 58 59 58C43 58 36 75 45 93C27 86 21 67 31 52C37 42 47 36 57 36Z" />
-          <path className="logo-fill logo-soft" d="M78 27C102 12 120 27 110 49C104 36 92 34 80 43L78 27Z" />
-          <path className="logo-fill logo-soft" d="M36 56L12 44L24 71L36 56Z" />
-          <path className="logo-fill logo-soft" d="M84 56L116 52L99 76L84 56Z" />
-          <path className="logo-cut" d="M70 37L95 22L86 48L70 37Z" />
-        </Svg>
-      );
-    }
+    const iconName = iconMap[type] || iconMap.dragon;
+    const iconUrl = `url(https://api.iconify.design/game-icons:${iconName}.svg)`;
 
     return (
-      <Svg>
-        <path className="logo-fill logo-back" d="M18 83C28 54 52 33 85 22C80 33 78 43 82 52C93 49 106 53 119 64C102 66 91 72 84 83C71 105 42 106 18 83Z" />
-        <path className="logo-fill" d="M28 78C37 51 63 29 107 21L96 43L119 48L95 59L111 79L84 72L74 99C65 83 47 80 28 78Z" />
-        <path className="logo-cut" d="M84 44L109 39L94 54L116 60L87 63L84 44Z" />
-        <CutEye x={91} y={48} />
-      </Svg>
+      <span
+        className={`animal-svg animal-${type} iconify-animal-logo`}
+        style={{ "--animal-icon": iconUrl }}
+        aria-hidden="true"
+      >
+        <span className="animal-logo-disc">
+          <span className="animal-logo-mask" />
+        </span>
+      </span>
     );
   };
 

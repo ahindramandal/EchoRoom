@@ -5028,95 +5028,127 @@ body {
 }
 
 
-/* ===== EchoRoom FINAL recognizable logo pack override ===== */
-.animal-circle {
-  width: 118px !important;
-  height: 118px !important;
-  border-radius: 50% !important;
-  background:
-    radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--accent) 34%, transparent), transparent 58%),
-    radial-gradient(circle at 50% 78%, rgba(255,255,255,0.05), transparent 64%),
-    linear-gradient(145deg, rgba(5,10,22,0.98), rgba(8,3,14,0.98)) !important;
-  border: 1px solid color-mix(in srgb, var(--accent) 72%, transparent) !important;
-  box-shadow: inset 0 0 24px rgba(255,255,255,0.035) !important;
-}
-
-.animal-circle::before {
-  inset: 7px !important;
-  opacity: 0.32 !important;
-}
-
-.animal-circle .animal-svg,
-.member-avatar-next .animal-svg,
-.brand-pegasus .animal-svg {
-  width: 92% !important;
-  height: 92% !important;
-  overflow: visible !important;
-  filter: none !important;
-}
-
-.logo-mark {
-  transform-origin: 64px 64px !important;
-}
-
-.logo-fill {
-  fill: currentColor !important;
-  opacity: 1 !important;
-}
-
-.logo-back,
-.logo-soft {
-  fill: currentColor !important;
-  opacity: 0.55 !important;
-}
-
-.logo-cut {
-  fill: #030512 !important;
-  opacity: 0.98 !important;
-}
-
-.logo-eye {
-  fill: #ffffff !important;
-  opacity: 0.95 !important;
-}
-
-.subtle-cut {
-  opacity: 0.55 !important;
-}
-
-.member-tile.speaking .animal-circle,
-.animal-circle.talking {
-  animation: avatarTalkPremium 0.82s ease-in-out infinite !important;
-  box-shadow:
-    0 0 0 8px color-mix(in srgb, var(--accent) 10%, transparent),
-    0 0 32px color-mix(in srgb, var(--accent) 44%, transparent),
-    inset 0 0 24px rgba(255,255,255,0.04) !important;
-}
-
-.member-tile.speaking .animal-svg .logo-mark {
-  animation: logoFloatTalk 0.82s ease-in-out infinite !important;
-}
-
-.bg-creature {
-  opacity: 0.11 !important;
-  filter: none !important;
-}
-
-.bg-creature .animal-svg {
+/* ===== REAL ECHOROOM LOGO FIX: icon-mask mythical esports logos ===== */
+.iconify-animal-logo {
+  display: inline-grid !important;
+  place-items: center !important;
   width: 100% !important;
   height: 100% !important;
-  transform: scale(1.02) !important;
+  overflow: visible !important;
+  color: var(--animal-color, #20a7ff);
+  filter: none !important;
 }
 
-.bg-dragon { color: #0ea5ff !important; }
+.animal-logo-disc {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 42% 36%, color-mix(in srgb, currentColor 28%, transparent), transparent 48%),
+    rgba(3, 8, 18, 0.42);
+  border: 1px solid color-mix(in srgb, currentColor 72%, transparent);
+}
+
+.animal-logo-mask {
+  width: 78%;
+  height: 78%;
+  display: block;
+  background: currentColor;
+  -webkit-mask-image: var(--animal-icon);
+  mask-image: var(--animal-icon);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/* Color themes for tiles/logos */
+.tile-accent-blue, .animal-blue, .bg-dragon { --animal-color: #19a7ff; }
+.tile-accent-cyan, .animal-cyan { --animal-color: #22e6ff; }
+.tile-accent-orange, .animal-orange, .bg-phoenix { --animal-color: #ff6a00; }
+.tile-accent-purple, .animal-purple { --animal-color: #9b4dff; }
+.tile-accent-gold, .animal-gold { --animal-color: #ffbf35; }
+.tile-accent-red, .animal-red { --animal-color: #ff354a; }
+.tile-accent-green, .animal-green { --animal-color: #20e08a; }
+.tile-accent-violet, .animal-violet { --animal-color: #b155ff; }
+
+/* Make member logo circles look like proper badges */
+.member-avatar-next,
+.tile-animal-logo,
+.brand-pegasus,
+.member-logo,
+.animal-holder {
+  color: var(--animal-color, #20a7ff) !important;
+}
+
+.member-avatar-next .iconify-animal-logo,
+.tile-animal-logo .iconify-animal-logo,
+.member-logo .iconify-animal-logo {
+  width: 92px !important;
+  height: 92px !important;
+}
+
+.member-avatar-next .animal-logo-disc,
+.tile-animal-logo .animal-logo-disc,
+.member-logo .animal-logo-disc {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, currentColor 42%, transparent),
+    0 0 24px color-mix(in srgb, currentColor 24%, transparent),
+    inset 0 0 28px rgba(255,255,255,0.03);
+}
+
+.member-avatar-next.speaking .animal-logo-disc,
+.member-tile-next.speaking .animal-logo-disc,
+.voice-tile.speaking .animal-logo-disc {
+  animation: animalSpeakPulse 0.9s ease-in-out infinite;
+}
+
+@keyframes animalSpeakPulse {
+  0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 0 0 1px currentColor, 0 0 18px color-mix(in srgb, currentColor 28%, transparent); }
+  50% { transform: translateY(-5px) scale(1.06); box-shadow: 0 0 0 1px currentColor, 0 0 38px color-mix(in srgb, currentColor 60%, transparent); }
+}
+
+/* Login top pegasus */
+.brand-pegasus {
+  width: 86px !important;
+  height: 86px !important;
+  margin-inline: auto;
+  color: #eaf6ff !important;
+}
+.brand-pegasus .animal-logo-disc {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.brand-pegasus .animal-logo-mask {
+  width: 88%;
+  height: 88%;
+}
+
+/* Replace bad ganja-leaf phoenix background with actual phoenix icon mask */
+.bg-creature {
+  opacity: 0.28 !important;
+  filter: none !important;
+}
+.bg-creature .iconify-animal-logo {
+  width: min(38vw, 580px) !important;
+  height: min(38vw, 580px) !important;
+}
+.bg-creature .animal-logo-disc {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.bg-creature .animal-logo-mask {
+  width: 100% !important;
+  height: 100% !important;
+}
+.bg-dragon { color: #158cff !important; }
 .bg-phoenix { color: #ff6a00 !important; }
 
-@keyframes avatarTalkPremium {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-5px) scale(1.05); }
-}
-
-@keyframes logoFloatTalk {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-3px) scale(1.035); }
-}
+/* Kill old polygon-logo fill/cut rules so old abstract shapes do not appear */
+.logo-mark, .logo-fill, .logo-cut, .subtle-cut { filter: none !important; }
