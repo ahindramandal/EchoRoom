@@ -5152,3 +5152,85 @@ body {
 
 /* Kill old polygon-logo fill/cut rules so old abstract shapes do not appear */
 .logo-mark, .logo-fill, .logo-cut, .subtle-cut { filter: none !important; }
+
+
+/* ===== FINAL LOGO FIX: inline SVG creatures, no external masks ===== */
+.real-animal-logo {
+  display: inline-grid !important;
+  place-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  color: var(--animal-color, #19a7ff) !important;
+  filter: none !important;
+}
+
+.real-animal-logo .animal-logo-disc {
+  width: 100% !important;
+  height: 100% !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 38% 30%, color-mix(in srgb, currentColor 24%, transparent), transparent 44%),
+    rgba(2, 8, 18, 0.42) !important;
+  border: 1px solid color-mix(in srgb, currentColor 70%, transparent) !important;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, currentColor 22%, transparent),
+    0 0 28px color-mix(in srgb, currentColor 28%, transparent),
+    inset 0 0 24px rgba(255,255,255,0.035) !important;
+  overflow: hidden;
+}
+
+.animal-svg-inline {
+  width: 82%;
+  height: 82%;
+  display: block;
+}
+
+.logo-piece { fill: currentColor; }
+.logo-back { opacity: 0.48; }
+.logo-tail { opacity: 0.76; }
+.logo-cut { fill: rgba(2, 8, 18, 0.92); }
+.logo-eye { fill: #ffffff; }
+
+.brand-pegasus.real-animal-logo,
+.brand-pegasus .real-animal-logo {
+  color: #2eb5ff !important;
+}
+
+.brand-pegasus .animal-logo-disc {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.brand-pegasus .animal-svg-inline {
+  width: 86% !important;
+  height: 86% !important;
+}
+
+.bg-creature .real-animal-logo {
+  width: min(42vw, 640px) !important;
+  height: min(42vw, 640px) !important;
+  opacity: 1 !important;
+}
+
+.bg-creature .animal-logo-disc {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.bg-creature .animal-svg-inline {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.bg-dragon { color: #118dff !important; opacity: 0.24 !important; }
+.bg-phoenix { color: #ff6500 !important; opacity: 0.24 !important; }
+
+.member-tile-next.speaking .real-animal-logo .animal-logo-disc,
+.member-avatar-next.speaking .real-animal-logo .animal-logo-disc,
+.voice-tile.speaking .real-animal-logo .animal-logo-disc {
+  animation: animalSpeakPulse 0.85s ease-in-out infinite;
+}

@@ -1144,32 +1144,88 @@ const toggleScreenShare = async () => {
   };
 
   const AnimalLogo = ({ type = "dragon" }) => {
-    // These are real SVG icon masks from Game-Icons/Iconify.
-    // They look like esports-style creature badges, not abstract CSS blobs.
-    const iconMap = {
-      dragon: "dragon-head",
-      phoenix: "phoenix-emblem",
-      pegasus: "pegasus",
-      wolf: "wolf-head",
-      deer: "deer-head",
-      lion: "lion",
-      raven: "raven",
-      shark: "shark-jaws",
-      crocodile: "croc-jaws",
-      scorpion: "scorpion",
+    const icons = {
+      dragon: (
+        <svg viewBox="0 0 120 120" className="animal-svg-inline" aria-hidden="true">
+          <path className="logo-piece logo-back" d="M24 83c18-35 40-55 73-62-8 8-10 17-8 27 8-1 15 2 20 9-11 1-18 5-23 12 8 3 14 9 18 18-16-5-30-5-43 1-13 6-25 6-37-5Z" />
+          <path className="logo-piece" d="M18 75c11-31 36-53 72-65-4 12-3 22 5 31-18 0-32 4-43 13 15-3 29-2 42 4-9 7-18 13-28 17 6 12 16 22 30 31-27-2-49-13-66-32-4 5-8 5-12 1Z" />
+          <path className="logo-cut" d="M58 43c6-6 14-10 25-11-8 5-12 10-14 16-5-2-9-3-11-5Z" />
+          <path className="logo-cut" d="M78 58l23 3-23 7c-3-4-3-7 0-10Z" />
+          <path className="logo-eye" d="M80 46l7 2-7 3Z" />
+        </svg>
+      ),
+      phoenix: (
+        <svg viewBox="0 0 120 120" className="animal-svg-inline" aria-hidden="true">
+          <path className="logo-piece logo-back" d="M58 18c-18 16-29 32-33 49 12-9 25-13 40-13 12 0 23 4 33 13-4-18-17-35-40-49Z" />
+          <path className="logo-piece" d="M60 12c-4 15-2 29 5 43 7-16 19-28 37-36-4 19-14 34-29 45 12 1 24 6 37 14-23 7-42 4-57-9-12 13-30 17-53 10 14-8 27-14 40-16-15-12-25-26-30-44 18 8 30 20 37 36 8-14 10-28 7-43Z" />
+          <path className="logo-cut" d="M61 42c9 2 16 7 20 15-7-3-14-4-22-3 2-5 2-9 2-12Z" />
+          <path className="logo-eye" d="M65 30l5 3-6 2Z" />
+          <path className="logo-piece logo-tail" d="M52 70c-1 17-8 28-22 36 17-2 30-9 39-23 0-7-6-11-17-13Z" />
+        </svg>
+      ),
+      pegasus: (
+        <svg viewBox="0 0 120 120" className="animal-svg-inline" aria-hidden="true">
+          <path className="logo-piece logo-back" d="M20 71c16-27 37-44 64-52-4 10-4 20 1 31 12 2 21 9 28 19-15-5-28-4-39 3-18 11-36 10-54-1Z" />
+          <path className="logo-piece" d="M15 76c20-37 48-56 83-58-7 8-11 16-11 25 11 2 20 9 28 20-16-4-30-3-41 5-12 9-24 14-37 13l9 19c-15-3-25-11-31-24Z" />
+          <path className="logo-cut" d="M48 39c8-9 20-14 36-16-11 8-18 17-21 28-6-5-11-9-15-12Z" />
+          <path className="logo-cut" d="M78 55l25 5-25 8c-4-5-4-9 0-13Z" />
+          <path className="logo-eye" d="M79 43l6 2-6 3Z" />
+        </svg>
+      ),
+      wolf: (
+        <svg viewBox="0 0 120 120" className="animal-svg-inline" aria-hidden="true">
+          <path className="logo-piece" d="M20 73c8-31 29-49 64-54l11-13 2 23c12 8 18 20 18 36-11-7-24-9-39-6 11 8 19 20 24 35-22-4-39-15-51-34-7 8-17 12-29 13Z" />
+          <path className="logo-cut" d="M60 39c8-6 17-9 29-9-8 5-13 11-16 19-5-4-9-7-13-10Z" />
+          <path className="logo-eye" d="M77 45l8 2-8 3Z" />
+        </svg>
+      ),
+      deer: (
+        <svg viewBox="0 0 120 120" className="animal-svg-inline" aria-hidden="true">
+          <path className="logo-piece" d="M60 100c-18-18-26-36-21-54L18 24l27 8L49 8l14 25L78 8l-4 24 28-8-22 22c5 19-2 37-20 54Z" />
+          <path className="logo-cut" d="M50 48h20l-10 20Z" />
+          <path className="logo-eye" d="M45 55l7 2-7 3Zm23 0l7 2-7 3Z" />
+        </svg>
+      ),
+      lion: (
+        <svg viewBox="0 0 120 120" className="animal-svg-inline" aria-hidden="true">
+          <path className="logo-piece" d="M16 69c14-31 39-49 75-54-2 10 1 19 8 27 9 10 13 22 12 36-17-11-33-13-50-7 10 9 19 19 27 32-28-4-51-15-72-34Z" />
+          <path className="logo-cut" d="M57 42c9-8 20-12 35-12-10 7-17 14-21 23-5-5-10-9-14-11Z" />
+          <path className="logo-eye" d="M78 48l8 2-8 4Z" />
+        </svg>
+      ),
+      raven: (
+        <svg viewBox="0 0 120 120" className="animal-svg-inline" aria-hidden="true">
+          <path className="logo-piece" d="M12 71c28-29 58-44 90-46-9 9-14 19-16 31l25 9-29 6c-14 19-36 26-70 0Z" />
+          <path className="logo-cut" d="M50 44c12-7 24-10 38-10-11 5-19 12-24 22-5-5-9-9-14-12Z" />
+          <path className="logo-eye" d="M75 45l7 2-7 3Z" />
+        </svg>
+      ),
+      shark: (
+        <svg viewBox="0 0 120 120" className="animal-svg-inline" aria-hidden="true">
+          <path className="logo-piece" d="M10 70c30-30 65-43 105-40-11 7-19 15-25 25l24 9-29 7c-18 18-43 18-75-1Z" />
+          <path className="logo-cut" d="M63 50l34 7-34 9c-5-6-5-11 0-16Z" />
+          <path className="logo-eye" d="M77 42l7 2-7 3Z" />
+        </svg>
+      ),
+      crocodile: (
+        <svg viewBox="0 0 120 120" className="animal-svg-inline" aria-hidden="true">
+          <path className="logo-piece" d="M8 70c26-25 58-38 96-39l10 12-26 9 24 9-30 7c-20 18-45 19-74 2Z" />
+          <path className="logo-cut" d="M58 51h50L80 64c-9-2-16-6-22-13Z" />
+          <path className="logo-eye" d="M80 42l8 2-8 3Z" />
+        </svg>
+      ),
+      scorpion: (
+        <svg viewBox="0 0 120 120" className="animal-svg-inline" aria-hidden="true">
+          <path className="logo-piece" d="M62 18c24 11 37 29 39 54l13 9-17 7c-9 17-25 24-48 22 12-8 19-18 21-30-13 8-30 10-52 5 22-11 35-24 40-38l-20-7 24-22Z" />
+          <path className="logo-cut" d="M61 44c9 4 15 12 18 23-8-5-16-7-25-8 5-5 7-10 7-15Z" />
+        </svg>
+      ),
     };
 
-    const iconName = iconMap[type] || iconMap.dragon;
-    const iconUrl = `url(https://api.iconify.design/game-icons:${iconName}.svg)`;
-
     return (
-      <span
-        className={`animal-svg animal-${type} iconify-animal-logo`}
-        style={{ "--animal-icon": iconUrl }}
-        aria-hidden="true"
-      >
+      <span className={`animal-svg animal-${type} real-animal-logo`} aria-hidden="true">
         <span className="animal-logo-disc">
-          <span className="animal-logo-mask" />
+          {icons[type] || icons.dragon}
         </span>
       </span>
     );
