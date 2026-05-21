@@ -37,13 +37,39 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-  background-size: 70px 70px;
-  transform: perspective(700px) rotateX(70deg) scale(2);
-  transform-origin: bottom;
-  opacity: 0.22;
+  overflow: hidden;
+  pointer-events: none;
+
+  background:
+    radial-gradient(circle at 15% 30%,
+      rgba(0,180,255,0.22) 0%,
+      transparent 22%),
+
+    radial-gradient(circle at 82% 35%,
+      rgba(255,110,40,0.24) 0%,
+      transparent 24%),
+
+    radial-gradient(circle at 22% 70%,
+      rgba(80,200,255,0.12) 0%,
+      transparent 18%),
+
+    radial-gradient(circle at 78% 72%,
+      rgba(255,80,0,0.12) 0%,
+      transparent 18%),
+
+    linear-gradient(
+      115deg,
+      transparent 0%,
+      rgba(255,255,255,0.025) 48%,
+      transparent 60%
+    );
+
+  filter: blur(2px);
+  animation:
+    cinematicParticles 16s linear infinite,
+    cinematicGlow 8s ease-in-out infinite alternate;
+
+  z-index: 0;
 }
 
 .sky {
@@ -5691,5 +5717,39 @@ body {
   100% {
     transform: translateX(10px) scale(1.05);
     opacity: 0.95;
+  }
+}
+
+/* ===== CINEMATIC BACKGROUND OVERRIDE ===== */
+
+@keyframes cinematicParticles {
+  0% {
+    background-position:
+      12% 28%,
+      82% 34%,
+      22% 70%,
+      78% 72%,
+      0% 0%;
+  }
+
+  100% {
+    background-position:
+      18% 36%,
+      76% 28%,
+      28% 62%,
+      72% 80%,
+      100% 100%;
+  }
+}
+
+@keyframes cinematicGlow {
+  0% {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.03);
   }
 }
