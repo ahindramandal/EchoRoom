@@ -4601,3 +4601,159 @@ body {
     width: 100%;
   }
 }
+
+
+/* ===== HOTFIX: cleaner 2D fantasy background + tiny particles ===== */
+.echoroom-next {
+  background:
+    radial-gradient(circle at 16% 34%, rgba(0, 132, 255, 0.26), transparent 24%),
+    radial-gradient(circle at 84% 32%, rgba(255, 102, 0, 0.24), transparent 25%),
+    linear-gradient(90deg, #020b18 0%, #050713 45%, #0b0610 55%, #170805 100%) !important;
+}
+
+.echoroom-next .sky {
+  background:
+    linear-gradient(90deg, rgba(0, 86, 179, 0.32), transparent 45%, transparent 55%, rgba(255, 90, 0, 0.26)),
+    radial-gradient(circle at 50% 20%, rgba(255,255,255,0.035), transparent 28%) !important;
+}
+
+.echoroom-next::after,
+.echoroom-next .shooting-star,
+.echoroom-next .star,
+.echoroom-next .city,
+.echoroom-next .fire {
+  display: none !important;
+}
+
+.bg-creature {
+  position: absolute;
+  z-index: 1;
+  width: min(38vw, 560px) !important;
+  height: min(38vw, 560px) !important;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0.34;
+  filter: none !important;
+  animation: creatureFloatClean 7s ease-in-out infinite;
+}
+
+.bg-creature .animal-svg {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: visible;
+  filter: none !important;
+}
+
+.bg-creature .logo-fill {
+  opacity: 0.82;
+  filter: none !important;
+}
+
+.bg-creature .logo-cut {
+  opacity: 0.22;
+}
+
+.bg-dragon {
+  left: 2vw !important;
+  top: 9vh !important;
+  transform: rotate(-8deg) !important;
+}
+
+.bg-dragon .logo-fill {
+  fill: rgba(0, 145, 255, 0.82) !important;
+}
+
+.bg-dragon .logo-cut {
+  fill: rgba(1, 8, 20, 0.9) !important;
+}
+
+.bg-phoenix {
+  right: 2vw !important;
+  top: 8vh !important;
+  transform: rotate(7deg) !important;
+  animation-delay: -2.5s;
+}
+
+.bg-phoenix .logo-fill {
+  fill: rgba(255, 101, 0, 0.82) !important;
+}
+
+.bg-phoenix .logo-cut {
+  fill: rgba(24, 7, 0, 0.9) !important;
+}
+
+.split-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.split-blue {
+  background: linear-gradient(90deg, rgba(0, 94, 202, 0.25), transparent 42%);
+}
+
+.split-orange {
+  background: linear-gradient(270deg, rgba(255, 83, 0, 0.22), transparent 42%);
+}
+
+.particle-field {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle-field .particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  opacity: 0.45;
+  background: rgba(255,255,255,0.45);
+  animation: tinyParticleDrift 9s linear infinite;
+  box-shadow: none !important;
+}
+
+.particle-field .particle:nth-child(odd) {
+  background: rgba(0, 157, 255, 0.72);
+}
+
+.particle-field .particle:nth-child(even) {
+  background: rgba(255, 110, 0, 0.72);
+}
+
+.particle-field .p1 { left: 8%; top: 14%; animation-delay: 0s; }
+.particle-field .p2 { left: 18%; top: 78%; animation-delay: -1s; }
+.particle-field .p3 { left: 31%; top: 22%; animation-delay: -2s; }
+.particle-field .p4 { left: 45%; top: 82%; animation-delay: -3s; }
+.particle-field .p5 { left: 63%; top: 17%; animation-delay: -4s; }
+.particle-field .p6 { left: 76%; top: 72%; animation-delay: -5s; }
+.particle-field .p7 { left: 88%; top: 25%; animation-delay: -6s; }
+.particle-field .p8 { left: 94%; top: 61%; animation-delay: -7s; }
+
+.login-card-next,
+.room-shell-next,
+.main-member-window,
+.glass-panel-next,
+.bottom-control-dock {
+  z-index: 3 !important;
+}
+
+@keyframes creatureFloatClean {
+  0%, 100% { translate: 0 0; opacity: 0.30; }
+  50% { translate: 0 -14px; opacity: 0.42; }
+}
+
+@keyframes tinyParticleDrift {
+  0% { transform: translate3d(0, 35px, 0); opacity: 0; }
+  20% { opacity: 0.55; }
+  100% { transform: translate3d(18px, -80px, 0); opacity: 0; }
+}
+
+/* Socket fix visible feedback */
+.status {
+  word-break: break-word;
+}

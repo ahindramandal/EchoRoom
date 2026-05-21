@@ -2,7 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import "./App.css";
 
-const socket = io(import.meta.env.VITE_BACKEND_URL || "http://localhost:5000");
+const socket = io("https://echoroom-ktns.onrender.com", {
+  transports: ["websocket", "polling"],
+  reconnection: true,
+  reconnectionAttempts: 8,
+  reconnectionDelay: 800,
+});
 const iceServers = {
   iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
 };
