@@ -5385,3 +5385,122 @@ body {
   .logo { width: 112px !important; height: 112px !important; }
   .brand-pegasus { width: 64px !important; height: 64px !important; }
 }
+
+/* ===== FINAL TWEAK: Ice/Fire particles + soft red deafen button ===== */
+.particle-field {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+}
+
+.particle-field .particle,
+.particle {
+  position: absolute !important;
+  border-radius: 999px !important;
+  opacity: 0.75 !important;
+  box-shadow: none !important;
+  will-change: transform, opacity !important;
+}
+
+/* Left side = ice particles */
+.particle-field .p1,
+.particle-field .p2,
+.particle-field .p3,
+.particle-field .p4,
+.p1, .p2, .p3, .p4 {
+  width: 3px !important;
+  height: 18px !important;
+  background: linear-gradient(to bottom, transparent, rgba(78, 190, 255, 0.95), transparent) !important;
+  box-shadow:
+    0 0 10px rgba(30, 155, 255, 0.65),
+    0 0 22px rgba(0, 120, 255, 0.28) !important;
+  animation: iceParticleFloat 7.5s ease-in-out infinite !important;
+}
+
+/* Right side = fire embers */
+.particle-field .p5,
+.particle-field .p6,
+.particle-field .p7,
+.particle-field .p8,
+.p5, .p6, .p7, .p8 {
+  width: 4px !important;
+  height: 11px !important;
+  background: linear-gradient(to bottom, transparent, rgba(255, 130, 22, 0.98), rgba(255, 57, 0, 0.45), transparent) !important;
+  box-shadow:
+    0 0 10px rgba(255, 108, 0, 0.68),
+    0 0 24px rgba(255, 58, 0, 0.28) !important;
+  animation: fireParticleFloat 6.5s ease-in-out infinite !important;
+}
+
+.particle-field .p1, .p1 { left: 7% !important; top: 16% !important; animation-delay: -0.2s !important; }
+.particle-field .p2, .p2 { left: 17% !important; top: 72% !important; animation-delay: -2.1s !important; }
+.particle-field .p3, .p3 { left: 28% !important; top: 31% !important; animation-delay: -4.4s !important; }
+.particle-field .p4, .p4 { left: 38% !important; top: 84% !important; animation-delay: -1.3s !important; }
+
+.particle-field .p5, .p5 { right: 38% !important; top: 18% !important; animation-delay: -1.6s !important; }
+.particle-field .p6, .p6 { right: 24% !important; top: 73% !important; animation-delay: -3.4s !important; }
+.particle-field .p7, .p7 { right: 11% !important; top: 28% !important; animation-delay: -0.7s !important; }
+.particle-field .p8, .p8 { right: 6% !important; top: 62% !important; animation-delay: -5.2s !important; }
+
+@keyframes iceParticleFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(-28deg) scaleY(0.75);
+    opacity: 0.2;
+  }
+  35% {
+    opacity: 0.85;
+  }
+  70% {
+    transform: translate3d(18px, -54px, 0) rotate(-28deg) scaleY(1.12);
+    opacity: 0.45;
+  }
+}
+
+@keyframes fireParticleFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(-18deg) scaleY(0.72);
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 0.9;
+  }
+  75% {
+    transform: translate3d(-20px, -62px, 0) rotate(-18deg) scaleY(1.18);
+    opacity: 0.45;
+  }
+}
+
+/* Deafen ON should look red, but not too bright */
+.control-btn[data-tooltip="Undeafen"] {
+  font-size: 0 !important;
+  color: #ff4b4b !important;
+  border-color: rgba(255, 75, 75, 0.5) !important;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(255,255,255,0.10), transparent 32%),
+    linear-gradient(135deg, rgba(90, 12, 22, 0.92), rgba(20, 5, 10, 0.96)) !important;
+  box-shadow:
+    0 0 14px rgba(255, 65, 65, 0.22),
+    inset 0 0 15px rgba(255, 70, 70, 0.08) !important;
+}
+
+.control-btn[data-tooltip="Undeafen"]::before {
+  content: "🎧";
+  font-size: 20px;
+  line-height: 1;
+  filter: grayscale(1) brightness(0) saturate(100%) invert(35%) sepia(91%) saturate(1650%) hue-rotate(332deg) brightness(96%) contrast(92%);
+  opacity: 0.9;
+}
+
+.control-btn[data-tooltip="Undeafen"]:hover {
+  box-shadow:
+    0 0 18px rgba(255, 65, 65, 0.32),
+    inset 0 0 16px rgba(255, 70, 70, 0.1) !important;
+}
+
+.status-dot.deaf-on,
+.deafen-icon {
+  color: #ff4b4b !important;
+  filter: drop-shadow(0 0 5px rgba(255, 70, 70, 0.35)) !important;
+}
